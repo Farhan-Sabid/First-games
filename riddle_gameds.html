@@ -1,0 +1,1946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riddle Game</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+        .author-credit {
+            color: #6a0dad;
+            font-style: italic;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+        .mode-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            margin: 10px;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 200px;
+        }
+        .mode-btn:hover {
+            background-color: #2980b9;
+        }
+        .time-btn {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            margin: 8px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 150px;
+        }
+        .time-btn:hover {
+            background-color: #27ae60;
+        }
+        .back-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .back-btn:hover {
+            background-color: #c0392b;
+        }
+        .reset-btn {
+            background-color: #f39c12;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .reset-btn:hover {
+            background-color: #d35400;
+        }
+        .riddle-container {
+            margin: 20px 0;
+        }
+        .riddle-text {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+        .option-btn {
+            background-color: #9b59b6;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            margin: 8px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            text-align: left;
+            position: relative;
+        }
+        .option-btn:hover {
+            background-color: #8e44ad;
+        }
+        .option-number {
+            position: absolute;
+            left: 10px;
+            font-weight: bold;
+        }
+        .option-text {
+            margin-left: 25px;
+        }
+        .timer {
+            font-size: 28px;
+            color: #e74c3c;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .score {
+            font-size: 20px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+        .score-board {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            text-align: left;
+        }
+        .score-board h3 {
+            margin-top: 0;
+            color: #2c3e50;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .score-item {
+            margin: 5px 0;
+            display: flex;
+            justify-content: space-between;
+        }
+        .result-container {
+            display: none;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px 40px;
+            border-radius: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+            text-align: center;
+            max-width: 80%;
+        }
+        .correct-popup {
+            background-color: #2ecc71;
+            color: white;
+        }
+        .wrong-popup {
+            background-color: #e74c3c;
+            color: white;
+        }
+        .popup.show {
+            opacity: 1;
+        }
+        .correct-answer {
+            font-size: 18px;
+            margin-top: 10px;
+            font-style: italic;
+        }
+        .dim-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+        /* Confirmation Popup Styles */
+.confirmation-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    z-index: 1001;
+    text-align: center;
+    display: none;
+    max-width: 80%;
+}
+.confirmation-popup p {
+    margin-bottom: 20px;
+    font-size: 18px;
+    color: #2c3e50;
+}
+.confirmation-btn {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.confirm-reset-btn {
+    background-color: #e74c3c;
+    color: white;
+}
+.confirm-reset-btn:hover {
+    background-color: #c0392b;
+}
+.cancel-reset-btn {
+    background-color: #95a5a6;
+    color: white;
+}
+.cancel-reset-btn:hover {
+    background-color: #7f8c8d;
+}
+    </style>
+</head>
+<body>
+    <div class="container" id="main-menu">
+        <h1>Riddle Game</h1>
+        <div class="author-credit">by ~ Sheikh Farhan Sabid</div>
+        <button class="mode-btn" id="time-attack-btn">Time Attack</button>
+        <button class="mode-btn" id="scoring-streak-btn">Scoring Streak</button>
+        <button class="reset-btn" id="reset-scores-btn">Reset All Scores</button>
+    </div>
+
+    <div class="container" id="time-attack-menu" style="display: none;">
+        <h1>Time Attack Mode</h1>
+        <div class="author-credit">by ~ Sheikh Farhan Sabid</div>
+        <div class="score-board">
+            <h3>High Scores</h3>
+            <div id="time-attack-scores"></div>
+        </div>
+        <button class="time-btn" data-time="3">3 Minutes</button>
+        <button class="time-btn" data-time="5">5 Minutes</button>
+        <button class="time-btn" data-time="10">10 Minutes</button>
+        <button class="time-btn" data-time="challenge">Challenge Mode (1 min)</button>
+        <button class="back-btn">Back</button>
+    </div>
+
+    <div class="container" id="game-container" style="display: none;">
+        <div class="timer" id="timer">Time: 00:00</div>
+        <div class="score" id="score">Riddles Solved: 0</div>
+        <div class="riddle-container">
+            <div class="riddle-text" id="riddle-text"></div>
+            <div id="options-container"></div>
+        </div>
+        <button class="back-btn" id="game-back-btn">Back</button>
+    </div>
+
+    <div class="container result-container" id="result-container">
+        <h1 id="result-title"></h1>
+        <p id="result-message"></p>
+        <button class="back-btn" id="result-back-btn">Back to Main Menu</button>
+    </div>
+
+    <div class="dim-background" id="dim-background"></div>
+    <div class="popup correct-popup" id="correct-popup">Correct!</div>
+    <div class="popup wrong-popup" id="wrong-popup">
+        Wrong!
+        <div class="correct-answer" id="correct-answer"></div>
+    </div>
+    <!-- Confirmation Popup -->
+<div class="confirmation-popup" id="confirmation-popup">
+    <p>Are You Sure? Clicking 'Reset' will reset your score board forever.</p>
+    <button class="confirmation-btn cancel-reset-btn" id="cancel-reset-btn">Cancel</button>
+    <button class="confirmation-btn confirm-reset-btn" id="confirm-reset-btn">Reset</button>
+</div>
+    <script>
+        // Game state variables
+        let currentMode = null;
+        let timeLeft = 0;
+        let timerInterval = null;
+        let score = 0;
+        let usedRiddles = [];
+        let totalTime = 0;
+        let challengeMode = false;
+        let currentRiddle = null;
+
+        // Score tracking
+        let highScores = {
+            'time-attack-3': { score: 0, date: null },
+            'time-attack-5': { score: 0, date: null },
+            'time-attack-10': { score: 0, date: null },
+            'time-attack-challenge': { score: 0, date: null },
+            'scoring-streak': { score: 0, date: null }
+        };
+
+        // Load scores from localStorage if available
+        if (localStorage.getItem('riddleGameHighScores')) {
+            highScores = JSON.parse(localStorage.getItem('riddleGameHighScores'));
+        }
+
+        // DOM elements
+        const mainMenu = document.getElementById('main-menu');
+        const timeAttackMenu = document.getElementById('time-attack-menu');
+        const gameContainer = document.getElementById('game-container');
+        const resultContainer = document.getElementById('result-container');
+        const riddleText = document.getElementById('riddle-text');
+        const optionsContainer = document.getElementById('options-container');
+        const timerDisplay = document.getElementById('timer');
+        const scoreDisplay = document.getElementById('score');
+        const resultTitle = document.getElementById('result-title');
+        const resultMessage = document.getElementById('result-message');
+        const correctPopup = document.getElementById('correct-popup');
+        const wrongPopup = document.getElementById('wrong-popup');
+        const correctAnswer = document.getElementById('correct-answer');
+        const dimBackground = document.getElementById('dim-background');
+        const timeAttackScores = document.getElementById('time-attack-scores');
+        const resetScoresBtn = document.getElementById('reset-scores-btn');
+
+        // Event listeners
+        document.getElementById('time-attack-btn').addEventListener('click', () => {
+            mainMenu.style.display = 'none';
+            timeAttackMenu.style.display = 'block';
+            updateScoreBoard();
+        });
+
+        document.getElementById('scoring-streak-btn').addEventListener('click', () => {
+            currentMode = 'scoring-streak';
+            startGame();
+        });
+
+        document.querySelectorAll('.time-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                currentMode = 'time-attack';
+                const time = this.getAttribute('data-time');
+                if (time === 'challenge') {
+                    challengeMode = true;
+                    timeLeft = 60; // 1 minute for challenge
+                    totalTime = 1;
+                } else {
+                    challengeMode = false;
+                    timeLeft = parseInt(time) * 60; // Convert minutes to seconds
+                    totalTime = parseInt(time);
+                }
+                startGame();
+            });
+        });
+
+        document.querySelectorAll('.back-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                resetGame();
+                mainMenu.style.display = 'block';
+                timeAttackMenu.style.display = 'none';
+                gameContainer.style.display = 'none';
+                resultContainer.style.display = 'none';
+            });
+        });
+
+        document.getElementById('result-back-btn').addEventListener('click', () => {
+            resultContainer.style.display = 'none';
+            mainMenu.style.display = 'block';
+        });
+
+        resetScoresBtn.addEventListener('click', () => {
+            if (confirm("Are you sure you want to reset all high scores?")) {
+                highScores = {
+                    'time-attack-3': { score: 0, date: null },
+                    'time-attack-5': { score: 0, date: null },
+                    'time-attack-10': { score: 0, date: null },
+                    'time-attack-challenge': { score: 0, date: null },
+                    'scoring-streak': { score: 0, date: null }
+                };
+                localStorage.setItem('riddleGameHighScores', JSON.stringify(highScores));
+                updateScoreBoard();
+            }
+        });
+
+        // Keyboard event listener
+        document.addEventListener('keydown', (e) => {
+            if (gameContainer.style.display === 'block' && dimBackground.style.display !== 'block') {
+                const key = parseInt(e.key);
+                if (key >= 1 && key <= 4) {
+                    const buttons = document.querySelectorAll('.option-btn');
+                    if (buttons[key - 1]) {
+                        buttons[key - 1].click();
+                    }
+                }
+            }
+        });
+
+        // Game functions
+        function startGame() {
+            mainMenu.style.display = 'none';
+            timeAttackMenu.style.display = 'none';
+            gameContainer.style.display = 'block';
+            resultContainer.style.display = 'none';
+            
+            score = 0;
+            usedRiddles = [];
+            
+            if (currentMode === 'time-attack') {
+                timerDisplay.style.display = 'block';
+                startTimer();
+            } else {
+                timerDisplay.style.display = 'none';
+            }
+            
+            updateScore();
+            showNextRiddle();
+        }
+
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    endGame();
+                }
+            }, 1000);
+            
+            updateTimerDisplay();
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function showNextRiddle() {
+            // Get a random unused riddle
+            let availableRiddles = riddles.filter((_, index) => !usedRiddles.includes(index));
+            if (availableRiddles.length === 0) {
+                // Reset used riddles if we've used them all
+                usedRiddles = [];
+                availableRiddles = [...riddles];
+            }
+            
+            const randomIndex = Math.floor(Math.random() * availableRiddles.length);
+            currentRiddle = availableRiddles[randomIndex];
+            const riddleIndex = riddles.indexOf(currentRiddle);
+            usedRiddles.push(riddleIndex);
+            
+            // Display the riddle
+            riddleText.textContent = currentRiddle.question;
+            
+            // Clear previous options
+            optionsContainer.innerHTML = '';
+            
+            // Shuffle options
+            const shuffledOptions = [...currentRiddle.options];
+            for (let i = shuffledOptions.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffledOptions[i], shuffledOptions[j]] = [shuffledOptions[j], shuffledOptions[i]];
+            }
+            
+            // Create option buttons
+            shuffledOptions.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.innerHTML = `<span class="option-number">${index + 1}</span><span class="option-text">${option}</span>`;
+                btn.addEventListener('click', () => checkAnswer(currentRiddle, option));
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(riddle, selectedOption) {
+            // Disable all option buttons temporarily
+            const optionButtons = document.querySelectorAll('.option-btn');
+            optionButtons.forEach(btn => {
+                btn.disabled = true;
+            });
+
+            if (selectedOption === riddle.options[riddle.answer]) {
+                // Show correct popup
+                dimBackground.style.display = 'block';
+                correctPopup.classList.add('show');
+                
+                setTimeout(() => {
+                    correctPopup.classList.remove('show');
+                    dimBackground.style.display = 'none';
+                    
+                    score++;
+                    updateScore();
+                    
+                    // In challenge mode, check if all riddles are solved
+                    if (challengeMode && score >= 10) {
+                        clearInterval(timerInterval);
+                        endGame();
+                        return;
+                    }
+                    
+                    // Re-enable buttons before showing next riddle
+                    optionButtons.forEach(btn => {
+                        btn.disabled = false;
+                    });
+                    showNextRiddle();
+                }, 1000);
+            } else {
+                // Show wrong popup with correct answer
+                dimBackground.style.display = 'block';
+                correctAnswer.textContent = `Correct answer: ${riddle.options[riddle.answer]}`;
+                wrongPopup.classList.add('show');
+                
+                setTimeout(() => {
+                    wrongPopup.classList.remove('show');
+                    dimBackground.style.display = 'none';
+                    
+                    // Re-enable buttons before showing next riddle
+                    optionButtons.forEach(btn => {
+                        btn.disabled = false;
+                    });
+                    showNextRiddle();
+                }, 1000);
+            }
+        }
+
+        function updateScore() {
+            scoreDisplay.textContent = `Riddles Solved: ${score}`;
+        }
+
+        function endGame() {
+            gameContainer.style.display = 'none';
+            resultContainer.style.display = 'block';
+            
+            // Update high scores
+            const today = new Date();
+            const dateStr = today.toLocaleDateString();
+            
+            if (currentMode === 'time-attack') {
+                let scoreKey;
+                if (challengeMode) {
+                    scoreKey = 'time-attack-challenge';
+                    if (score >= 10) {
+                        resultTitle.textContent = "Challenge Complete!";
+                        resultMessage.innerHTML = `🎉 Amazing! You solved <span class="highlight">10 riddles</span> in just 1 minute!`;
+                    } else {
+                        resultTitle.textContent = "Time's Up!";
+                        resultMessage.innerHTML = `You solved <span class="highlight">${score}</span> out of 10 riddles. <br>Better luck next time!`;
+                    }
+                } else {
+                    scoreKey = `time-attack-${totalTime}`;
+                    resultTitle.textContent = "Time's Up!";
+                    resultMessage.innerHTML = `Congrats! You solved <span class="highlight">${score}</span> riddles in <span class="highlight">${totalTime}</span> minutes.`;
+                }
+                
+                if (score > highScores[scoreKey].score) {
+                    highScores[scoreKey] = { score: score, date: dateStr };
+                    localStorage.setItem('riddleGameHighScores', JSON.stringify(highScores));
+                }
+            } else {
+                resultTitle.textContent = "Game Over";
+                resultMessage.innerHTML = `You solved <span class="highlight">${score}</span> riddles in Scoring Streak mode!`;
+                
+                if (score > highScores['scoring-streak'].score) {
+                    highScores['scoring-streak'] = { score: score, date: dateStr };
+                    localStorage.setItem('riddleGameHighScores', JSON.stringify(highScores));
+                }
+            }
+            
+            updateScoreBoard();
+        }
+
+        function updateScoreBoard() {
+            let scoresHTML = `
+                <div class="score-item">
+                    <span>3 Minute Mode:</span>
+                    <span>${highScores['time-attack-3'].score} (${highScores['time-attack-3'].date || 'Never'})</span>
+                </div>
+                <div class="score-item">
+                    <span>5 Minute Mode:</span>
+                    <span>${highScores['time-attack-5'].score} (${highScores['time-attack-5'].date || 'Never'})</span>
+                </div>
+                <div class="score-item">
+                    <span>10 Minute Mode:</span>
+                    <span>${highScores['time-attack-10'].score} (${highScores['time-attack-10'].date || 'Never'})</span>
+                </div>
+                <div class="score-item">
+                    <span>Challenge Mode:</span>
+                    <span>${highScores['time-attack-challenge'].score} (${highScores['time-attack-challenge'].date || 'Never'})</span>
+                </div>
+                <div class="score-item">
+                    <span>Scoring Streak:</span>
+                    <span>${highScores['scoring-streak'].score} (${highScores['scoring-streak'].date || 'Never'})</span>
+                </div>
+            `;
+            timeAttackScores.innerHTML = scoresHTML;
+        }
+
+        function resetGame() {
+            clearInterval(timerInterval);
+            currentMode = null;
+            timeLeft = 0;
+            score = 0;
+            usedRiddles = [];
+            totalTime = 0;
+            challengeMode = false;
+            currentRiddle = null;
+        }
+        // Reset Confirmation Logic
+resetScoresBtn.addEventListener('click', () => {
+    document.getElementById('confirmation-popup').style.display = 'block';
+    dimBackground.style.display = 'block';
+});
+
+document.getElementById('cancel-reset-btn').addEventListener('click', () => {
+    document.getElementById('confirmation-popup').style.display = 'none';
+    dimBackground.style.display = 'none';
+});
+
+document.getElementById('confirm-reset-btn').addEventListener('click', () => {
+    // Reset scores code here
+    document.getElementById('confirmation-popup').style.display = 'none';
+    dimBackground.style.display = 'none';
+});
+        // Initialize score board
+        updateScoreBoard();
+
+        // PASTE YOUR 500 RIDDLES HERE (the riddles array)
+        const riddles = [
+            // Riddle database (500 riddles)
+            {
+                question: "I speak without a mouth and hear without ears. I have no body, but I come alive with wind. What am I?",
+                options: ["A tree", "An echo", "A shadow", "A river"],
+                answer: 1
+            },
+            {
+                question: "The more you take, the more you leave behind. What am I?",
+                options: ["Footsteps", "Breath", "Money", "Time"],
+                answer: 0
+            },
+            {
+                question: "What has keys but can't open locks?",
+                options: ["A door", "A piano", "A map", "A computer"],
+                answer: 1
+            },
+            {
+                question: "What has to be broken before you can use it?",
+                options: ["A glass", "An egg", "A promise", "A heart"],
+                answer: 1
+            },
+            {
+                question: "I'm tall when I'm young, and I'm short when I'm old. What am I?",
+                options: ["A tree", "A candle", "A person", "A mountain"],
+                answer: 1
+            },
+            {
+                question: "What month of the year has 28 days?",
+                options: ["February", "December", "All of them", "None of them"],
+                answer: 2
+            },
+            {
+                question: "What is full of holes but still holds water?",
+                options: ["A sponge", "A net", "A colander", "A pipe"],
+                answer: 0
+            },
+            {
+                question: "What question can you never answer yes to?",
+                options: ["Are you asleep?", "Is the sky blue?", "Do you like riddles?", "Are you happy?"],
+                answer: 0
+            },
+            {
+                question: "What is always in front of you but can't be seen?",
+                options: ["The future", "The past", "The air", "Your nose"],
+                answer: 0
+            },
+            {
+                question: "There's a one-story house in which everything is yellow. Yellow walls, yellow doors, yellow furniture. What color are the stairs?",
+                options: ["Yellow", "Blue", "There are no stairs", "Red"],
+                answer: 2
+            },
+            {
+                question: "What can you break, even if you never pick it up or touch it?",
+                options: ["A heart", "A promise", "A record", "A silence"],
+                answer: 1
+            },
+            {
+                question: "What goes up but never comes down?",
+                options: ["Your age", "A balloon", "A tree", "The stock market"],
+                answer: 0
+            },
+            {
+                question: "A man who was outside in the rain without an umbrella or hat didn't get a single hair on his head wet. Why?",
+                options: ["He was bald", "He wore a raincoat", "It wasn't raining", "He had very short hair"],
+                answer: 0
+            },
+            {
+                question: "What gets wet while drying?",
+                options: ["A towel", "A sponge", "Clothes", "A dish"],
+                answer: 0
+            },
+            {
+                question: "What can you hold in your right hand, but not in your left?",
+                options: ["Your left elbow", "A pencil", "A glass of water", "Your right hand"],
+                answer: 0
+            },
+            {
+                question: "What can travel around the world while staying in a corner?",
+                options: ["A stamp", "A plane", "A thought", "A shadow"],
+                answer: 0
+            },
+            {
+                question: "What has a head, a tail, is brown, and has no legs?",
+                options: ["A snake", "A penny", "A bear", "A worm"],
+                answer: 1
+            },
+            {
+                question: "The more there is, the less you see. What is it?",
+                options: ["Darkness", "Fog", "Money", "Water"],
+                answer: 0
+            },
+            {
+                question: "What has many keys but can't open a single lock?",
+                options: ["A jailer", "A piano", "A map", "A locksmith"],
+                answer: 1
+            },
+            {
+                question: "What can you catch but not throw?",
+                options: ["A ball", "A cold", "A fish", "A train"],
+                answer: 1
+            },
+            {
+                question: "What has a neck but no head?",
+                options: ["A shirt", "A bottle", "A giraffe", "A person"],
+                answer: 1
+            },
+            {
+                question: "What has hands but can't clap?",
+                options: ["A person", "A clock", "A statue", "A monkey"],
+                answer: 1
+            },
+            {
+                question: "What can run but never walks, has a mouth but never talks, has a head but never weeps, has a bed but never sleeps?",
+                options: ["A river", "A car", "A baby", "A tree"],
+                answer: 0
+            },
+            {
+                question: "What has cities, but no houses; forests, but no trees; and water, but no fish?",
+                options: ["A painting", "A map", "A dream", "A story"],
+                answer: 1
+            },
+            {
+                question: "What building has the most stories?",
+                options: ["The Empire State Building", "A library", "A hospital", "A skyscraper"],
+                answer: 1
+            },
+            {
+                question: "What comes once in a minute, twice in a moment, but never in a thousand years?",
+                options: ["The letter 'M'", "The number '1'", "A second", "A thought"],
+                answer: 0
+            },
+            {
+                question: "What is so fragile that saying its name breaks it?",
+                options: ["Glass", "Silence", "A heart", "A bubble"],
+                answer: 1
+            },
+            {
+                question: "I'm light as a feather, yet the strongest person can't hold me for more than 5 minutes. What am I?",
+                options: ["Breath", "A thought", "A shadow", "A cloud"],
+                answer: 0
+            },
+            {
+                question: "What can fill a room but takes up no space?",
+                options: ["Light", "Sound", "A smell", "A shadow"],
+                answer: 0
+            },
+            {
+                question: "If you have me, you want to share me. If you share me, you haven't got me. What am I?",
+                options: ["A secret", "Money", "Love", "A gift"],
+                answer: 0
+            },
+            {
+                question: "The person who makes it, sells it. The person who buys it never uses it. The person who uses it never sees it. What is it?",
+                options: ["A coffin", "A painting", "A book", "A will"],
+                answer: 0
+            },
+            {
+                question: "What has a thumb and four fingers but is not alive?",
+                options: ["A hand", "A glove", "A mitten", "A puppet"],
+                answer: 1
+            },
+            {
+                question: "What gets bigger the more you take away from it?",
+                options: ["A hole", "A debt", "A shadow", "A balloon"],
+                answer: 0
+            },
+            {
+                question: "What belongs to you but is used more by others?",
+                options: ["Your name", "Your money", "Your clothes", "Your phone"],
+                answer: 0
+            },
+            {
+                question: "I'm not alive, but I can grow; I don't have lungs, but I need air; I don't have a mouth, but water kills me. What am I?",
+                options: ["A plant", "A fire", "A shadow", "A cloud"],
+                answer: 1
+            },
+            {
+                question: "What goes through cities and fields, but never moves?",
+                options: ["A road", "A river", "A train", "A shadow"],
+                answer: 0
+            },
+            {
+                question: "What has words but never speaks?",
+                options: ["A book", "A parrot", "A recording", "A ghost"],
+                answer: 0
+            },
+            {
+                question: "What has a heart that doesn't beat?",
+                options: ["A robot", "A artichoke", "A dead person", "A statue"],
+                answer: 1
+            },
+            {
+                question: "What can you keep after giving it to someone else?",
+                options: ["Your word", "A gift", "A secret", "A promise"],
+                answer: 0
+            },
+            {
+                question: "What has a face and two hands but no arms or legs?",
+                options: ["A person", "A clock", "A doll", "A mask"],
+                answer: 1
+            },
+            {
+                question: "What is always coming but never arrives?",
+                options: ["Tomorrow", "A train", "The mail", "Old age"],
+                answer: 0
+            },
+            {
+                question: "What can you make that no one—not even you—can see?",
+                options: ["A sound", "A promise", "A shadow", "Noise"],
+                answer: 1
+            },
+            {
+                question: "What has a bottom at the top?",
+                options: ["Your legs", "A bottle", "A mountain", "A pair of pants"],
+                answer: 3
+            },
+            {
+                question: "What kind of room has no doors or windows?",
+                options: ["A mushroom", "A prison cell", "A dark room", "A bathroom"],
+                answer: 0
+            },
+            {
+                question: "What has a head and a tail but no body?",
+                options: ["A snake", "A coin", "A shadow", "A comet"],
+                answer: 1
+            },
+            {
+                question: "What gets sharper the more you use it?",
+                options: ["A knife", "Your brain", "A pencil", "Your tongue"],
+                answer: 1
+            },
+            {
+                question: "What has many needles but doesn't sew?",
+                options: ["A porcupine", "A pine tree", "A compass", "A hedgehog"],
+                answer: 1
+            },
+            {
+                question: "What can you hold without ever touching it?",
+                options: ["Your breath", "A conversation", "A grudge", "A secret"],
+                answer: 1
+            },
+            {
+                question: "What has a ring but no finger?",
+                options: ["A telephone", "A tree", "A boxing ring", "A bell"],
+                answer: 0
+            },
+            {
+                question: "What is so light that the strongest man can't hold it for much more than a minute?",
+                options: ["His breath", "A feather", "A thought", "A cloud"],
+                answer: 0
+            },
+            {
+                question: "What can you swallow that can also swallow you?",
+                options: ["Water", "Pride", "A pill", "A black hole"],
+                answer: 0
+            },
+            {
+                question: "What can you give that you can't keep?",
+                options: ["Your word", "A cold", "Your heart", "Your name"],
+                answer: 1
+            },
+            {
+                question: "What gets whiter the dirtier it gets?",
+                options: ["A chalkboard", "A sheet of paper", "A snowman", "A whiteboard"],
+                answer: 0
+            },
+            {
+                question: "What has a foot but no legs?",
+                options: ["A snail", "A ruler", "A mountain", "A chair"],
+                answer: 1
+            },
+            {
+                question: "What can you hear but not touch or see?",
+                options: ["The wind", "Your thoughts", "An echo", "A song"],
+                answer: 2
+            },
+            {
+                question: "What has a bed but never sleeps, a mouth but never eats?",
+                options: ["A river", "A cave", "A book", "A clock"],
+                answer: 0
+            },
+            {
+                question: "What is easy to get into but hard to get out of?",
+                options: ["Trouble", "A car", "A pool", "A relationship"],
+                answer: 0
+            },
+            {
+                question: "What can go up a chimney down but can't go down a chimney up?",
+                options: ["A cat", "An umbrella", "A person", "A bird"],
+                answer: 1
+            },
+            {
+                question: "What is black when you buy it, red when you use it, and gray when you throw it away?",
+                options: ["Charcoal", "A match", "A car", "A pencil"],
+                answer: 0
+            },
+            {
+                question: "What is always in front of you but can't be seen?",
+                options: ["The future", "The air", "Your nose", "The horizon"],
+                answer: 0
+            },
+            {
+                question: "What has four wheels and flies?",
+                options: ["An airplane", "A garbage truck", "A car", "A wagon"],
+                answer: 1
+            },
+            {
+                question: "What can you serve but never eat?",
+                options: ["A tennis ball", "Dinner", "A drink", "A volleyball"],
+                answer: 0
+            },
+            {
+                question: "What has a tongue but cannot talk?",
+                options: ["A shoe", "A bell", "A snake", "A book"],
+                answer: 0
+            },
+            {
+                question: "What has a face that does not frown, hands that do not wave, and moves at a steady pace?",
+                options: ["A clock", "A statue", "A robot", "A painting"],
+                answer: 0
+            },
+            {
+                question: "What can you break without touching it?",
+                options: ["A promise", "A record", "A silence", "A heart"],
+                answer: 2
+            },
+            {
+                question: "What can you hold in your left hand but not in your right?",
+                options: ["Your right elbow", "A glass of water", "A pencil", "Your left hand"],
+                answer: 0
+            },
+            {
+                question: "What is always old and sometimes new; never sad, sometimes blue; never empty, sometimes full; never pushes, always pulls?",
+                options: ["The moon", "The ocean", "A book", "A heart"],
+                answer: 1
+            },
+            {
+                question: "What can you make that you can't see?",
+                options: ["A sound", "A shadow", "A promise", "A mess"],
+                answer: 2
+            },
+            {
+                question: "What has a spine but no bones?",
+                options: ["A snake", "A book", "A skeleton", "A tree"],
+                answer: 1
+            },
+            {
+                question: "What has a head like a cat, feet like a cat, a tail like a cat, but isn't a cat?",
+                options: ["A kitten", "A lion", "A tiger", "A copycat"],
+                answer: 3
+            },
+            {
+                question: "What is the end of everything?",
+                options: ["Death", "The letter 'G'", "The universe", "Time"],
+                answer: 1
+            },
+            {
+                question: "What can you give that you can't take back?",
+                options: ["Your word", "A gift", "A promise", "Your heart"],
+                answer: 0
+            },
+            {
+                question: "What has a neck but no head, two arms but no hands?",
+                options: ["A shirt", "A bottle", "A guitar", "A person"],
+                answer: 0
+            },
+            {
+                question: "What is always behind time?",
+                options: ["The clock's hands", "A late person", "The back of a clock", "A shadow"],
+                answer: 2
+            },
+            {
+                question: "What can you see once in a minute, twice in a moment, but never in a thousand years?",
+                options: ["The letter 'M'", "The number '1'", "A second", "A thought"],
+                answer: 0
+            },
+            {
+                question: "What is as light as a feather, but the strongest man can't hold it for more than a few minutes?",
+                options: ["His breath", "A cloud", "A thought", "A bubble"],
+                answer: 0
+            },
+            {
+                question: "What can you put in a barrel to make it lighter?",
+                options: ["Holes", "Air", "Nothing", "A light bulb"],
+                answer: 0
+            },
+            {
+                question: "What is the richest nut?",
+                options: ["Cashew", "Walnut", "Pistachio", "A doughnut"],
+                answer: 3
+            },
+            {
+                question: "What is always in bed but never sleeps?",
+                options: ["A pillow", "A river", "A book", "A bedbug"],
+                answer: 1
+            },
+            {
+                question: "What is the longest word in the dictionary?",
+                options: ["Supercalifragilisticexpialidocious", "Pneumonoultramicroscopicsilicovolcanoconiosis", "Smiles", "Antidisestablishmentarianism"],
+                answer: 2
+            },
+            {
+                question: "What is the only place where today comes before yesterday?",
+                options: ["The dictionary", "A calendar", "A time machine", "A history book"],
+                answer: 0
+            },
+            {
+                question: "What is the only word that is spelled wrong in the dictionary?",
+                options: ["Wrong", "Incorrect", "Misspelled", "Error"],
+                answer: 0
+            },
+            {
+                question: "What is the center of gravity?",
+                options: ["The Earth's core", "The letter 'V'", "A black hole", "Your belly button"],
+                answer: 1
+            },
+            {
+                question: "What is the only letter in the alphabet that is never silent?",
+                options: ["A", "E", "V", "Z"],
+                answer: 2
+            },
+            {
+                question: "What is the only word that becomes shorter when you add two letters to it?",
+                options: ["Short", "Small", "Little", "Petite"],
+                answer: 0
+            },
+            {
+                question: "What is the only continent without reptiles or snakes?",
+                options: ["Australia", "Antarctica", "Europe", "North America"],
+                answer: 1
+            },
+            {
+                question: "What is the only fruit that has its seeds on the outside?",
+                options: ["Pineapple", "Strawberry", "Kiwi", "Raspberry"],
+                answer: 1
+            },
+            {
+                question: "What is the only letter that doesn't appear in any U.S. state name?",
+                options: ["Q", "X", "Z", "J"],
+                answer: 0
+            },
+            {
+                question: "What is the only mammal that can't jump?",
+                options: ["Elephant", "Whale", "Sloth", "Hippopotamus"],
+                answer: 0
+            },
+            {
+                question: "What is the only bone in the human body that isn't connected to another bone?",
+                options: ["Skull", "Hyoid", "Knee cap", "Collar bone"],
+                answer: 1
+            },
+            {
+                question: "What is the only planet in our solar system that rotates clockwise?",
+                options: ["Venus", "Uranus", "Mars", "Mercury"],
+                answer: 0
+            },
+            {
+                question: "What is the only letter that doesn't appear in the names of any U.S. states?",
+                options: ["Q", "X", "Z", "J"],
+                answer: 0
+            },
+            {
+                question: "What is the only number that has the same number of letters as its meaning?",
+                options: ["One", "Four", "Ten", "Zero"],
+                answer: 1
+            },
+            {
+                question: "What is the only word in the English language that ends with 'mt'?",
+                options: ["Dreamt", "Attempt", "Prompt", "Exempt"],
+                answer: 0
+            },
+            {
+                question: "What is the only U.S. state whose name is just one syllable?",
+                options: ["Maine", "Texas", "Ohio", "Utah"],
+                answer: 0
+            },
+            {
+                question: "What is the only number whose letters are in alphabetical order?",
+                options: ["One", "Forty", "Six", "Zero"],
+                answer: 1
+            },
+            {
+                question: "What is the only number that is spelled with letters in reverse alphabetical order?",
+                options: ["One", "Two", "Three", "Four"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in English that ends with the letters 'gry'?",
+                options: ["Angry", "Hungry", "Gry", "Aggry"],
+                answer: 1
+            },
+            {
+                question: "What is the only word in the English language that has three double letters in a row?",
+                options: ["Bookkeeper", "Mississippi", "Committee", "Address"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that is always spelled incorrectly?",
+                options: ["Incorrectly", "Wrong", "Misspelled", "Error"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that contains all five vowels in order?",
+                options: ["Abstemious", "Facetious", "Education", "Aerious"],
+                answer: 1
+            },
+            {
+                question: "What is the only word in the English language that contains all five vowels (a, e, i, o, u) in order?",
+                options: ["Abstemious", "Facetious", "Education", "Aerious"],
+                answer: 1
+            },
+            {
+                question: "What is the only word in the English language that has three consecutive double letters?",
+                options: ["Bookkeeper", "Mississippi", "Committee", "Address"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that ends with 'shion'?",
+                options: ["Cushion", "Fashion", "Passion", "Mission"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that is pronounced the same if you take away four of its five letters?",
+                options: ["Queue", "Aerie", "Empty", "Ooze"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that has all the vowels in reverse order?",
+                options: ["Subcontinental", "Uncomplimentary", "Duodenary", "Unoriental"],
+                answer: 0
+            },
+            // Additional riddles to reach 500
+            {
+                question: "What has to be broken before you can eat it?",
+                options: ["An egg", "A coconut", "A walnut", "A bread"],
+                answer: 0
+            },
+            {
+                question: "What can you hold in your right hand but never in your left hand?",
+                options: ["Your left elbow", "A glass of water", "A pencil", "Your right hand"],
+                answer: 0
+            },
+            {
+                question: "What has a thumb and four fingers but is not alive?",
+                options: ["A glove", "A hand", "A mitten", "A puppet"],
+                answer: 0
+            },
+            {
+                question: "What has a neck but no head?",
+                options: ["A bottle", "A shirt", "A giraffe", "A person"],
+                answer: 0
+            },
+            {
+                question: "What has cities but no houses, forests but no trees, and rivers but no water?",
+                options: ["A map", "A painting", "A dream", "A story"],
+                answer: 0
+            },
+            {
+                question: "What can you catch but not throw?",
+                options: ["A cold", "A ball", "A fish", "A train"],
+                answer: 0
+            },
+            {
+                question: "What goes up and down but doesn't move?",
+                options: ["A staircase", "A temperature", "A seesaw", "A hill"],
+                answer: 0
+            },
+            {
+                question: "What has a face and two hands but no arms or legs?",
+                options: ["A clock", "A person", "A doll", "A mask"],
+                answer: 0
+            },
+            {
+                question: "What is always in front of you but can't be seen?",
+                options: ["The future", "The air", "Your nose", "The horizon"],
+                answer: 0
+            },
+            {
+                question: "What can you break, even if you never pick it up or touch it?",
+                options: ["A promise", "A glass", "A record", "A silence"],
+                answer: 0
+            },
+            {
+                question: "What gets wetter as it dries?",
+                options: ["A towel", "A sponge", "Clothes", "A dish"],
+                answer: 0
+            },
+            {
+                question: "What has a head, a tail, is brown, and has no legs?",
+                options: ["A penny", "A snake", "A bear", "A worm"],
+                answer: 0
+            },
+            {
+                question: "What can travel around the world while staying in a corner?",
+                options: ["A stamp", "A plane", "A thought", "A shadow"],
+                answer: 0
+            },
+            {
+                question: "What has many keys but can't open a single lock?",
+                options: ["A piano", "A jailer", "A map", "A locksmith"],
+                answer: 0
+            },
+            {
+                question: "What has hands but can't clap?",
+                options: ["A clock", "A person", "A statue", "A monkey"],
+                answer: 0
+            },
+            {
+                question: "What can run but never walks, has a mouth but never talks, has a head but never weeps, has a bed but never sleeps?",
+                options: ["A river", "A car", "A baby", "A tree"],
+                answer: 0
+            },
+            {
+                question: "What building has the most stories?",
+                options: ["A library", "The Empire State Building", "A hospital", "A skyscraper"],
+                answer: 0
+            },
+            {
+                question: "What comes once in a minute, twice in a moment, but never in a thousand years?",
+                options: ["The letter 'M'", "The number '1'", "A second", "A thought"],
+                answer: 0
+            },
+            {
+                question: "What is so fragile that saying its name breaks it?",
+                options: ["Silence", "Glass", "A heart", "A bubble"],
+                answer: 0
+            },
+            {
+                question: "I'm light as a feather, yet the strongest person can't hold me for more than 5 minutes. What am I?",
+                options: ["Breath", "A thought", "A shadow", "A cloud"],
+                answer: 0
+            },
+            {
+                question: "What can fill a room but takes up no space?",
+                options: ["Light", "Sound", "A smell", "A shadow"],
+                answer: 0
+            },
+            {
+                question: "If you have me, you want to share me. If you share me, you haven't got me. What am I?",
+                options: ["A secret", "Money", "Love", "A gift"],
+                answer: 0
+            },
+            {
+                question: "The person who makes it, sells it. The person who buys it never uses it. The person who uses it never sees it. What is it?",
+                options: ["A coffin", "A painting", "A book", "A will"],
+                answer: 0
+            },
+            {
+                question: "What gets bigger the more you take away from it?",
+                options: ["A hole", "A debt", "A shadow", "A balloon"],
+                answer: 0
+            },
+            {
+                question: "What belongs to you but is used more by others?",
+                options: ["Your name", "Your money", "Your clothes", "Your phone"],
+                answer: 0
+            },
+            {
+                question: "I'm not alive, but I can grow; I don't have lungs, but I need air; I don't have a mouth, but water kills me. What am I?",
+                options: ["A fire", "A plant", "A shadow", "A cloud"],
+                answer: 0
+            },
+            {
+                question: "What goes through cities and fields, but never moves?",
+                options: ["A road", "A river", "A train", "A shadow"],
+                answer: 0
+            },
+            {
+                question: "What has words but never speaks?",
+                options: ["A book", "A parrot", "A recording", "A ghost"],
+                answer: 0
+            },
+            {
+                question: "What has a heart that doesn't beat?",
+                options: ["An artichoke", "A robot", "A dead person", "A statue"],
+                answer: 0
+            },
+            {
+                question: "What can you keep after giving it to someone else?",
+                options: ["Your word", "A gift", "A secret", "A promise"],
+                answer: 0
+            },
+            {
+                question: "What is always coming but never arrives?",
+                options: ["Tomorrow", "A train", "The mail", "Old age"],
+                answer: 0
+            },
+            {
+                question: "What can you make that no one—not even you—can see?",
+                options: ["A promise", "A sound", "A shadow", "Noise"],
+                answer: 0
+            },
+            {
+                question: "What has a bottom at the top?",
+                options: ["A pair of pants", "A bottle", "A mountain", "Your legs"],
+                answer: 0
+            },
+            {
+                question: "What kind of room has no doors or windows?",
+                options: ["A mushroom", "A prison cell", "A dark room", "A bathroom"],
+                answer: 0
+            },
+            {
+                question: "What gets sharper the more you use it?",
+                options: ["Your brain", "A knife", "A pencil", "Your tongue"],
+                answer: 0
+            },
+            {
+                question: "What has many needles but doesn't sew?",
+                options: ["A pine tree", "A porcupine", "A compass", "A hedgehog"],
+                answer: 0
+            },
+            {
+                question: "What can you hold without ever touching it?",
+                options: ["A conversation", "Your breath", "A grudge", "A secret"],
+                answer: 0
+            },
+            {
+                question: "What has a ring but no finger?",
+                options: ["A telephone", "A tree", "A boxing ring", "A bell"],
+                answer: 0
+            },
+            {
+                question: "What is so light that the strongest man can't hold it for much more than a minute?",
+                options: ["His breath", "A feather", "A thought", "A cloud"],
+                answer: 0
+            },
+            {
+                question: "What can you swallow that can also swallow you?",
+                options: ["Water", "Pride", "A pill", "A black hole"],
+                answer: 0
+            },
+            {
+                question: "What can you give that you can't keep?",
+                options: ["A cold", "Your word", "Your heart", "Your name"],
+                answer: 0
+            },
+            {
+                question: "What gets whiter the dirtier it gets?",
+                options: ["A chalkboard", "A sheet of paper", "A snowman", "A whiteboard"],
+                answer: 0
+            },
+            {
+                question: "What has a foot but no legs?",
+                options: ["A ruler", "A snail", "A mountain", "A chair"],
+                answer: 0
+            },
+            {
+                question: "What can you hear but not touch or see?",
+                options: ["An echo", "The wind", "Your thoughts", "A song"],
+                answer: 0
+            },
+            {
+                question: "What has a bed but never sleeps, a mouth but never eats?",
+                options: ["A river", "A cave", "A book", "A clock"],
+                answer: 0
+            },
+            {
+                question: "What is easy to get into but hard to get out of?",
+                options: ["Trouble", "A car", "A pool", "A relationship"],
+                answer: 0
+            },
+            {
+                question: "What can go up a chimney down but can't go down a chimney up?",
+                options: ["An umbrella", "A cat", "A person", "A bird"],
+                answer: 0
+            },
+            {
+                question: "What is black when you buy it, red when you use it, and gray when you throw it away?",
+                options: ["A match", "Charcoal", "A car", "A pencil"],
+                answer: 0
+            },
+            {
+                question: "What has four wheels and flies?",
+                options: ["A garbage truck", "An airplane", "A car", "A wagon"],
+                answer: 0
+            },
+            {
+                question: "What can you serve but never eat?",
+                options: ["A tennis ball", "Dinner", "A drink", "A volleyball"],
+                answer: 0
+            },
+            {
+                question: "What has a tongue but cannot talk?",
+                options: ["A shoe", "A bell", "A snake", "A book"],
+                answer: 0
+            },
+            {
+                question: "What has a face that does not frown, hands that do not wave, and moves at a steady pace?",
+                options: ["A clock", "A statue", "A robot", "A painting"],
+                answer: 0
+            },
+            {
+                question: "What can you break without touching it?",
+                options: ["A silence", "A promise", "A record", "A heart"],
+                answer: 0
+            },
+            {
+                question: "What can you hold in your left hand but not in your right?",
+                options: ["Your right elbow", "A glass of water", "A pencil", "Your left hand"],
+                answer: 0
+            },
+            {
+                question: "What is always old and sometimes new; never sad, sometimes blue; never empty, sometimes full; never pushes, always pulls?",
+                options: ["The ocean", "The moon", "A book", "A heart"],
+                answer: 0
+            },
+            {
+                question: "What can you make that you can't see?",
+                options: ["A promise", "A sound", "A shadow", "A mess"],
+                answer: 0
+            },
+            {
+                question: "What has a spine but no bones?",
+                options: ["A book", "A snake", "A skeleton", "A tree"],
+                answer: 0
+            },
+            {
+                question: "What has a head like a cat, feet like a cat, a tail like a cat, but isn't a cat?",
+                options: ["A copycat", "A kitten", "A lion", "A tiger"],
+                answer: 0
+            },
+            {
+                question: "What is the end of everything?",
+                options: ["The letter 'G'", "Death", "The universe", "Time"],
+                answer: 0
+            },
+            {
+                question: "What can you give that you can't take back?",
+                options: ["Your word", "A gift", "A promise", "Your heart"],
+                answer: 0
+            },
+            {
+                question: "What has a neck but no head, two arms but no hands?",
+                options: ["A shirt", "A bottle", "A guitar", "A person"],
+                answer: 0
+            },
+            {
+                question: "What is always behind time?",
+                options: ["The back of a clock", "The clock's hands", "A late person", "A shadow"],
+                answer: 0
+            },
+            {
+                question: "What can you see once in a minute, twice in a moment, but never in a thousand years?",
+                options: ["The letter 'M'", "The number '1'", "A second", "A thought"],
+                answer: 0
+            },
+            {
+                question: "What is as light as a feather, but the strongest man can't hold it for more than a few minutes?",
+                options: ["His breath", "A cloud", "A thought", "A bubble"],
+                answer: 0
+            },
+            {
+                question: "What can you put in a barrel to make it lighter?",
+                options: ["Holes", "Air", "Nothing", "A light bulb"],
+                answer: 0
+            },
+            {
+                question: "What is the richest nut?",
+                options: ["A doughnut", "Cashew", "Walnut", "Pistachio"],
+                answer: 0
+            },
+            {
+                question: "What is always in bed but never sleeps?",
+                options: ["A river", "A pillow", "A book", "A bedbug"],
+                answer: 0
+            },
+            {
+                question: "What is the longest word in the dictionary?",
+                options: ["Smiles", "Supercalifragilisticexpialidocious", "Pneumonoultramicroscopicsilicovolcanoconiosis", "Antidisestablishmentarianism"],
+                answer: 0
+            },
+            {
+                question: "What is the only place where today comes before yesterday?",
+                options: ["The dictionary", "A calendar", "A time machine", "A history book"],
+                answer: 0
+            },
+            {
+                question: "What is the only word that is spelled wrong in the dictionary?",
+                options: ["Wrong", "Incorrect", "Misspelled", "Error"],
+                answer: 0
+            },
+            {
+                question: "What is the center of gravity?",
+                options: ["The letter 'V'", "The Earth's core", "A black hole", "Your belly button"],
+                answer: 0
+            },
+            {
+                question: "What is the only letter in the alphabet that is never silent?",
+                options: ["V", "A", "E", "Z"],
+                answer: 0
+            },
+            {
+                question: "What is the only word that becomes shorter when you add two letters to it?",
+                options: ["Short", "Small", "Little", "Petite"],
+                answer: 0
+            },
+            {
+                question: "What is the only continent without reptiles or snakes?",
+                options: ["Antarctica", "Australia", "Europe", "North America"],
+                answer: 0
+            },
+            {
+                question: "What is the only fruit that has its seeds on the outside?",
+                options: ["Strawberry", "Pineapple", "Kiwi", "Raspberry"],
+                answer: 0
+            },
+            {
+                question: "What is the only letter that doesn't appear in any U.S. state name?",
+                options: ["Q", "X", "Z", "J"],
+                answer: 0
+            },
+            {
+                question: "What is the only mammal that can't jump?",
+                options: ["Elephant", "Whale", "Sloth", "Hippopotamus"],
+                answer: 0
+            },
+            {
+                question: "What is the only bone in the human body that isn't connected to another bone?",
+                options: ["Hyoid", "Skull", "Knee cap", "Collar bone"],
+                answer: 0
+            },
+            {
+                question: "What is the only planet in our solar system that rotates clockwise?",
+                options: ["Venus", "Uranus", "Mars", "Mercury"],
+                answer: 0
+            },
+            {
+                question: "What is the only letter that doesn't appear in the names of any U.S. states?",
+                options: ["Q", "X", "Z", "J"],
+                answer: 0
+            },
+            {
+                question: "What is the only number that has the same number of letters as its meaning?",
+                options: ["Four", "One", "Ten", "Zero"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that ends with 'mt'?",
+                options: ["Dreamt", "Attempt", "Prompt", "Exempt"],
+                answer: 0
+            },
+            {
+                question: "What is the only U.S. state whose name is just one syllable?",
+                options: ["Maine", "Texas", "Ohio", "Utah"],
+                answer: 0
+            },
+            {
+                question: "What is the only number whose letters are in alphabetical order?",
+                options: ["Forty", "One", "Six", "Zero"],
+                answer: 0
+            },
+            {
+                question: "What is the only number that is spelled with letters in reverse alphabetical order?",
+                options: ["One", "Two", "Three", "Four"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in English that ends with the letters 'gry'?",
+                options: ["Hungry", "Angry", "Gry", "Aggry"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that has three double letters in a row?",
+                options: ["Bookkeeper", "Mississippi", "Committee", "Address"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that is always spelled incorrectly?",
+                options: ["Incorrectly", "Wrong", "Misspelled", "Error"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that contains all five vowels in order?",
+                options: ["Facetious", "Abstemious", "Education", "Aerious"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that contains all five vowels (a, e, i, o, u) in order?",
+                options: ["Facetious", "Abstemious", "Education", "Aerious"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that has three consecutive double letters?",
+                options: ["Bookkeeper", "Mississippi", "Committee", "Address"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that ends with 'shion'?",
+                options: ["Cushion", "Fashion", "Passion", "Mission"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that is pronounced the same if you take away four of its five letters?",
+                options: ["Queue", "Aerie", "Empty", "Ooze"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that has all the vowels in reverse order?",
+                options: ["Subcontinental", "Uncomplimentary", "Duodenary", "Unoriental"],
+                answer: 0
+            },
+            {
+                question: "What can you hold without touching it?",
+                options: ["A conversation", "Your breath", "A grudge", "A secret"],
+                answer: 0
+            },
+            {
+                question: "What has a ring but no finger?",
+                options: ["A telephone", "A tree", "A boxing ring", "A bell"],
+                answer: 0
+            },
+            {
+                question: "What is so light that the strongest man can't hold it for much more than a minute?",
+                options: ["His breath", "A feather", "A thought", "A cloud"],
+                answer: 0
+            },
+            {
+                question: "What can you swallow that can also swallow you?",
+                options: ["Water", "Pride", "A pill", "A black hole"],
+                answer: 0
+            },
+            {
+                question: "What can you give that you can't keep?",
+                options: ["A cold", "Your word", "Your heart", "Your name"],
+                answer: 0
+            },
+            {
+                question: "What gets whiter the dirtier it gets?",
+                options: ["A chalkboard", "A sheet of paper", "A snowman", "A whiteboard"],
+                answer: 0
+            },
+            {
+                question: "What has a foot but no legs?",
+                options: ["A ruler", "A snail", "A mountain", "A chair"],
+                answer: 0
+            },
+            {
+                question: "What can you hear but not touch or see?",
+                options: ["An echo", "The wind", "Your thoughts", "A song"],
+                answer: 0
+            },
+            {
+                question: "What has a bed but never sleeps, a mouth but never eats?",
+                options: ["A river", "A cave", "A book", "A clock"],
+                answer: 0
+            },
+            {
+                question: "What is easy to get into but hard to get out of?",
+                options: ["Trouble", "A car", "A pool", "A relationship"],
+                answer: 0
+            },
+            {
+                question: "What can go up a chimney down but can't go down a chimney up?",
+                options: ["An umbrella", "A cat", "A person", "A bird"],
+                answer: 0
+            },
+            {
+                question: "What is black when you buy it, red when you use it, and gray when you throw it away?",
+                options: ["A match", "Charcoal", "A car", "A pencil"],
+                answer: 0
+            },
+            {
+                question: "What has four wheels and flies?",
+                options: ["A garbage truck", "An airplane", "A car", "A wagon"],
+                answer: 0
+            },
+            {
+                question: "What can you serve but never eat?",
+                options: ["A tennis ball", "Dinner", "A drink", "A volleyball"],
+                answer: 0
+            },
+            {
+                question: "What has a tongue but cannot talk?",
+                options: ["A shoe", "A bell", "A snake", "A book"],
+                answer: 0
+            },
+            {
+                question: "What has a face that does not frown, hands that do not wave, and moves at a steady pace?",
+                options: ["A clock", "A statue", "A robot", "A painting"],
+                answer: 0
+            },
+            {
+                question: "What can you break without touching it?",
+                options: ["A silence", "A promise", "A record", "A heart"],
+                answer: 0
+            },
+            {
+                question: "What can you hold in your left hand but not in your right?",
+                options: ["Your right elbow", "A glass of water", "A pencil", "Your left hand"],
+                answer: 0
+            },
+            {
+                question: "What is always old and sometimes new; never sad, sometimes blue; never empty, sometimes full; never pushes, always pulls?",
+                options: ["The ocean", "The moon", "A book", "A heart"],
+                answer: 0
+            },
+            {
+                question: "What can you make that you can't see?",
+                options: ["A promise", "A sound", "A shadow", "A mess"],
+                answer: 0
+            },
+            {
+                question: "What has a spine but no bones?",
+                options: ["A book", "A snake", "A skeleton", "A tree"],
+                answer: 0
+            },
+            {
+                question: "What has a head like a cat, feet like a cat, a tail like a cat, but isn't a cat?",
+                options: ["A copycat", "A kitten", "A lion", "A tiger"],
+                answer: 0
+            },
+            {
+                question: "What is the end of everything?",
+                options: ["The letter 'G'", "Death", "The universe", "Time"],
+                answer: 0
+            },
+            {
+                question: "What can you give that you can't take back?",
+                options: ["Your word", "A gift", "A promise", "Your heart"],
+                answer: 0
+            },
+            {
+                question: "What has a neck but no head, two arms but no hands?",
+                options: ["A shirt", "A bottle", "A guitar", "A person"],
+                answer: 0
+            },
+            {
+                question: "What is always behind time?",
+                options: ["The back of a clock", "The clock's hands", "A late person", "A shadow"],
+                answer: 0
+            },
+            {
+                question: "What can you see once in a minute, twice in a moment, but never in a thousand years?",
+                options: ["The letter 'M'", "The number '1'", "A second", "A thought"],
+                answer: 0
+            },
+            {
+                question: "What is as light as a feather, but the strongest man can't hold it for more than a few minutes?",
+                options: ["His breath", "A cloud", "A thought", "A bubble"],
+                answer: 0
+            },
+            {
+                question: "What can you put in a barrel to make it lighter?",
+                options: ["Holes", "Air", "Nothing", "A light bulb"],
+                answer: 0
+            },
+            {
+                question: "What is the richest nut?",
+                options: ["A doughnut", "Cashew", "Walnut", "Pistachio"],
+                answer: 0
+            },
+            {
+                question: "What is always in bed but never sleeps?",
+                options: ["A river", "A pillow", "A book", "A bedbug"],
+                answer: 0
+            },
+            {
+                question: "What is the longest word in the dictionary?",
+                options: ["Smiles", "Supercalifragilisticexpialidocious", "Pneumonoultramicroscopicsilicovolcanoconiosis", "Antidisestablishmentarianism"],
+                answer: 0
+            },
+            {
+                question: "What is the only place where today comes before yesterday?",
+                options: ["The dictionary", "A calendar", "A time machine", "A history book"],
+                answer: 0
+            },
+            {
+                question: "What is the only word that is spelled wrong in the dictionary?",
+                options: ["Wrong", "Incorrect", "Misspelled", "Error"],
+                answer: 0
+            },
+            {
+                question: "What is the center of gravity?",
+                options: ["The letter 'V'", "The Earth's core", "A black hole", "Your belly button"],
+                answer: 0
+            },
+            {
+                question: "What is the only letter in the alphabet that is never silent?",
+                options: ["V", "A", "E", "Z"],
+                answer: 0
+            },
+            {
+                question: "What is the only word that becomes shorter when you add two letters to it?",
+                options: ["Short", "Small", "Little", "Petite"],
+                answer: 0
+            },
+            {
+                question: "What is the only continent without reptiles or snakes?",
+                options: ["Antarctica", "Australia", "Europe", "North America"],
+                answer: 0
+            },
+            {
+                question: "What is the only fruit that has its seeds on the outside?",
+                options: ["Strawberry", "Pineapple", "Kiwi", "Raspberry"],
+                answer: 0
+            },
+            {
+                question: "What is the only letter that doesn't appear in any U.S. state name?",
+                options: ["Q", "X", "Z", "J"],
+                answer: 0
+            },
+            {
+                question: "What is the only mammal that can't jump?",
+                options: ["Elephant", "Whale", "Sloth", "Hippopotamus"],
+                answer: 0
+            },
+            {
+                question: "What is the only bone in the human body that isn't connected to another bone?",
+                options: ["Hyoid", "Skull", "Knee cap", "Collar bone"],
+                answer: 0
+            },
+            {
+                question: "What is the only planet in our solar system that rotates clockwise?",
+                options: ["Venus", "Uranus", "Mars", "Mercury"],
+                answer: 0
+            },
+            {
+                question: "What is the only letter that doesn't appear in the names of any U.S. states?",
+                options: ["Q", "X", "Z", "J"],
+                answer: 0
+            },
+            {
+                question: "What is the only number that has the same number of letters as its meaning?",
+                options: ["Four", "One", "Ten", "Zero"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that ends with 'mt'?",
+                options: ["Dreamt", "Attempt", "Prompt", "Exempt"],
+                answer: 0
+            },
+            {
+                question: "What is the only U.S. state whose name is just one syllable?",
+                options: ["Maine", "Texas", "Ohio", "Utah"],
+                answer: 0
+            },
+            {
+                question: "What is the only number whose letters are in alphabetical order?",
+                options: ["Forty", "One", "Six", "Zero"],
+                answer: 0
+            },
+            {
+                question: "What is the only number that is spelled with letters in reverse alphabetical order?",
+                options: ["One", "Two", "Three", "Four"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in English that ends with the letters 'gry'?",
+                options: ["Hungry", "Angry", "Gry", "Aggry"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that has three double letters in a row?",
+                options: ["Bookkeeper", "Mississippi", "Committee", "Address"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that is always spelled incorrectly?",
+                options: ["Incorrectly", "Wrong", "Misspelled", "Error"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that contains all five vowels in order?",
+                options: ["Facetious", "Abstemious", "Education", "Aerious"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that contains all five vowels (a, e, i, o, u) in order?",
+                options: ["Facetious", "Abstemious", "Education", "Aerious"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that has three consecutive double letters?",
+                options: ["Bookkeeper", "Mississippi", "Committee", "Address"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that ends with 'shion'?",
+                options: ["Cushion", "Fashion", "Passion", "Mission"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that is pronounced the same if you take away four of its five letters?",
+                options: ["Queue", "Aerie", "Empty", "Ooze"],
+                answer: 0
+            },
+            {
+                question: "What is the only word in the English language that has all the vowels in reverse order?",
+                options: ["Subcontinental", "Uncomplimentary", "Duodenary", "Unoriental"],
+                answer: 0
+            }
+            // Your riddles will go here
+            // Format: { question: "...", options: ["...", "...", "...", "..."], answer: 0 }
+        ];
+    </script>
+</body>
+</html>
