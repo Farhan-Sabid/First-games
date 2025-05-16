@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2nd FC Mobile Tournament Points Table</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 2.2em;
+        }
+        
+        .presented-by {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+        
+        .last-updated {
+            text-align: center;
+            font-size: 0.9em;
+            margin-bottom: 30px;
+            color: #7f8c8d;
+        }
+        
+        .groups-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .group {
+            flex: 1;
+            min-width: 450px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .group-title {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 8px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        
+        td {
+            padding: 12px 5px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+            color: #2c3e50;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .player-name {
+            text-align: left;
+            padding-left: 15px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .form-circles {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .circle {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
+        
+        .win {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .tie {
+            background-color: #95a5a6;
+            color: white;
+        }
+        
+        .lose {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .goal-circle {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .points {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .total-goals {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .rank {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        @media (max-width: 768px) {
+            .groups-container {
+                flex-direction: column;
+            }
+            
+            .group {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>2nd FC Mobile Tournament Points Table</h1>
+        <div class="presented-by">Presented by Sheikh Farhan Sabid</div>
+        <div class="last-updated" id="lastUpdated">Last updated: <span id="updateTime"></span></div>
+        
+        <div class="groups-container">
+            <div class="group">
+                <div class="group-title">Group A</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Player</th>
+                            <th>Win/Tie/Lose</th>
+                            <th>Goals</th>
+                            <th>Pts</th>
+                            <th>Total Goals</th>
+                        </tr>
+                    </thead>
+                    <tbody id="groupA">
+                        <!-- Group A data will be inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="group">
+                <div class="group-title">Group B</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Player</th>
+                            <th>Win/Tie/Lose</th>
+                            <th>Goals</th>
+                            <th>Pts</th>
+                            <th>Total Goals</th>
+                        </tr>
+                    </thead>
+                    <tbody id="groupB">
+                        <!-- Group B data will be inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Team data - EDIT THIS TO UPDATE THE TOURNAMENT STANDINGS
+        const teamData = {
+            // Group A
+            "Turash": { group: "A", matches: [], goals: [] },
+            "Jihad": { group: "A", matches: ['L'], goals: [1] }, // Lost to Wadi 1-4
+            "Fahad": { group: "A", matches: [], goals: [] },
+            "Sahil": { group: "A", matches: [], goals: [] },
+            "Wadi": { group: "A", matches: ['W'], goals: [4] }, // Beat Jihad 4-1
+            "Rajin": { group: "A", matches: [], goals: [] },
+            
+            // Group B
+            "Eraj": { group: "B", matches: [], goals: [] },
+            "Zuhaer": { group: "B", matches: ['W'], goals: [3] },
+            "Sabid": { group: "B", matches: ['W'], goals: [2] }, // Beat Nahid 2-0
+            "Saqib": { group: "B", matches: ['W', 'L'], goals: [2, 0] }, // Beat Nahid 2-1
+            "Nahid": { group: "B", matches: ['L', 'L'], goals: [0, 1] }, // Lost to Sabid 0-2, lost to Saqib 1-2
+            "Digonto": { group: "B", matches: [], goals: [] }
+        };
+
+        // Calculate points and prepare data for display
+        function prepareGroupData(groupLetter) {
+            return Object.entries(teamData)
+                .filter(([name, data]) => data.group === groupLetter)
+                .map(([name, data]) => {
+                    const wins = data.matches.filter(r => r === 'W').length;
+                    const ties = data.matches.filter(r => r === 'T').length;
+                    const losses = data.matches.filter(r => r === 'L').length;
+                    const points = wins * 2 + ties * 1;
+                    const goalsFor = data.goals.reduce((a, b) => a + b, 0);
+                    
+                    return {
+                        name,
+                        matches: data.matches,
+                        goals: data.goals,
+                        wins,
+                        ties,
+                        losses,
+                        points,
+                        goalsFor
+                    };
+                })
+                .sort((a, b) => {
+                    // Sort by points descending, then goal difference descending
+                    if (b.points !== a.points) return b.points - a.points;
+                    return b.goalsFor - a.goalsFor;
+                });
+        }
+
+        // Render a group table
+        function renderGroup(groupElementId, groupData) {
+            const groupElement = document.getElementById(groupElementId);
+            groupElement.innerHTML = '';
+            
+            groupData.forEach((player, index) => {
+                const row = document.createElement('tr');
+                
+                // Rank
+                const rankCell = document.createElement('td');
+                rankCell.className = 'rank';
+                rankCell.textContent = index + 1;
+                row.appendChild(rankCell);
+                
+                // Player name
+                const nameCell = document.createElement('td');
+                nameCell.className = 'player-name';
+                nameCell.textContent = player.name;
+                row.appendChild(nameCell);
+                
+                // Win/Tie/Lose circles
+                const formCell = document.createElement('td');
+                const formCircles = document.createElement('div');
+                formCircles.className = 'form-circles';
+                
+                // Add result circles (pad to 5 matches)
+                for (let i = 0; i < 5; i++) {
+                    const circle = document.createElement('div');
+                    circle.className = 'circle';
+                    
+                    if (i < player.matches.length) {
+                        const result = player.matches[i];
+                        circle.textContent = result === 'W' ? 'W' : result === 'T' ? 'T' : 'L';
+                        circle.classList.add(result === 'W' ? 'win' : result === 'T' ? 'tie' : 'lose');
+                    } else {
+                        circle.textContent = '-';
+                        circle.style.background = 'transparent';
+                        circle.style.border = '1px solid #ddd';
+                        circle.style.color = '#95a5a6';
+                    }
+                    
+                    formCircles.appendChild(circle);
+                }
+                
+                formCell.appendChild(formCircles);
+                row.appendChild(formCell);
+                
+                // Goals circles
+                const goalsCell = document.createElement('td');
+                const goalsCircles = document.createElement('div');
+                goalsCircles.className = 'form-circles';
+                
+                // Add goal circles (pad to 5 matches)
+                for (let i = 0; i < 5; i++) {
+                    const circle = document.createElement('div');
+                    circle.className = 'circle goal-circle';
+                    
+                    if (i < player.goals.length) {
+                        circle.textContent = player.goals[i];
+                    } else {
+                        circle.textContent = '-';
+                        circle.style.background = 'transparent';
+                        circle.style.border = '1px solid #ddd';
+                        circle.style.color = '#95a5a6';
+                    }
+                    
+                    goalsCircles.appendChild(circle);
+                }
+                
+                goalsCell.appendChild(goalsCircles);
+                row.appendChild(goalsCell);
+                
+                // Points
+                const pointsCell = document.createElement('td');
+                pointsCell.className = 'points';
+                pointsCell.textContent = player.points;
+                row.appendChild(pointsCell);
+                
+                // Total Goals
+                const totalGoalsCell = document.createElement('td');
+                totalGoalsCell.className = 'total-goals';
+                totalGoalsCell.textContent = player.goalsFor;
+                row.appendChild(totalGoalsCell);
+                
+                groupElement.appendChild(row);
+            });
+        }
+
+        // Update last updated time
+        function updateLastUpdated() {
+            const now = new Date();
+            const options = { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            document.getElementById('updateTime').textContent = now.toLocaleDateString('en-US', options);
+            localStorage.setItem('lastUpdated', now.toString());
+        }
+
+        // Initialize the page
+        function init() {
+            // Render groups
+            renderGroup('groupA', prepareGroupData('A'));
+            renderGroup('groupB', prepareGroupData('B'));
+            
+            // Set last updated time
+            const lastUpdated = localStorage.getItem('lastUpdated');
+            if (lastUpdated) {
+                const lastUpdatedDate = new Date(lastUpdated);
+                const now = new Date();
+                const hoursDiff = Math.floor((now - lastUpdatedDate) / (1000 * 60 * 60));
+                
+                if (hoursDiff < 1) {
+                    document.getElementById('updateTime').textContent = 'Less than an hour ago';
+                } else {
+                    document.getElementById('updateTime').textContent = `${hoursDiff} hour${hoursDiff !== 1 ? 's' : ''} ago`;
+                }
+            } else {
+                updateLastUpdated();
+            }
+        }
+
+        // Initialize when page loads
+        window.onload = init;
+    </script>
+</body>
+</html>
