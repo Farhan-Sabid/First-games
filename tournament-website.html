@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2nd FC Mobile Tournament of Milestone Sector - 7</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 2em;
+        }
+        
+        .presented-by {
+            text-align: center;
+            margin-bottom: 5px;
+            color: #7f8c8d;
+            font-weight: 500;
+        }
+        
+        .player-count {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+        
+        .groups-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .group {
+            flex: 1;
+            min-width: 450px;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e0e0e0;
+        }
+        
+        .group-title {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th {
+            background-color: #3498db;
+            color: white;
+            padding: 12px 8px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        
+        td {
+            padding: 12px 5px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+            color: #2c3e50;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .player-name {
+            text-align: left;
+            padding-left: 15px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .form-circles {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .circle {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7em;
+            font-weight: bold;
+        }
+        
+        .win {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .tie {
+            background-color: #95a5a6;
+            color: white;
+        }
+        
+        .lose {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .goal-circle {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .points {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .total-goals {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .rank {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        /* New Match Fixtures Section */
+        .matches-section {
+            margin-top: 40px;
+        }
+        
+        .matches-title {
+            text-align: center;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .match-day {
+            margin-bottom: 30px;
+        }
+        
+        .match-day-title {
+            font-size: 1.3em;
+            color: #3498db;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .match-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        .match-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            width: 280px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .match-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .match-teams {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 40%;
+        }
+        
+        .team-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-align: center;
+        }
+        
+        .vs {
+            font-weight: bold;
+            width: 20%;
+            text-align: center;
+        }
+        
+        .match-score {
+            font-size: 1.5em;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 0;
+        }
+        
+        .match-status {
+            text-align: center;
+            font-size: 0.9em;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        
+        .completed {
+            color: #27ae60;
+        }
+        
+        .upcoming {
+            color: #f39c12;
+        }
+        
+        /* Popup Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 25px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 700px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5em;
+            cursor: pointer;
+            color: #7f8c8d;
+        }
+        
+        .close-modal:hover {
+            color: #e74c3c;
+        }
+        
+        .match-details-title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2c3e50;
+            font-size: 1.5em;
+        }
+        
+        .stats-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #3498db;
+            border-bottom: 1px solid #3498db;
+            padding-bottom: 5px;
+        }
+        
+        .goal-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            padding: 8px;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+        }
+        
+        .goal-scorer {
+            font-weight: bold;
+        }
+        
+        .goal-time {
+            color: #7f8c8d;
+        }
+        
+        .upcoming-match-message {
+            text-align: center;
+            padding: 40px;
+            font-size: 1.2em;
+            color: #7f8c8d;
+        }
+        
+        @media (max-width: 768px) {
+            .groups-container {
+                flex-direction: column;
+            }
+            
+            .group {
+                min-width: 100%;
+            }
+            
+            .modal-content {
+                width: 90%;
+                margin: 20px auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>2nd FC Mobile Tournament of Milestone Sector - 7</h1>
+        <div class="presented-by">Presented by Sheikh Farhan Sabid</div>
+        <div class="player-count">Total 12 Players</div>
+        
+        <div class="groups-container">
+            <div class="group">
+                <div class="group-title">Group A</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Player</th>
+                            <th>Win/Tie/Lose</th>
+                            <th>Goals</th>
+                            <th>Pts</th>
+                            <th>Total G</th>
+                        </tr>
+                    </thead>
+                    <tbody id="groupA">
+                        <!-- Group A data will be inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="group">
+                <div class="group-title">Group B</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Player</th>
+                            <th>Win/Tie/Lose</th>
+                            <th>Goals</th>
+                            <th>Pts</th>
+                            <th>Total G</th>
+                        </tr>
+                    </thead>
+                    <tbody id="groupB">
+                        <!-- Group B data will be inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- New Matches Section -->
+        <div class="matches-section">
+            <h2 class="matches-title">Match Fixtures & Results</h2>
+            
+            <!-- Group A Matches -->
+            <div class="match-day">
+                <h3 class="match-day-title">Group A Matches</h3>
+                <div class="match-container" id="groupA-matches">
+                    <!-- Group A matches will be inserted here by JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Group B Matches -->
+            <div class="match-day">
+                <h3 class="match-day-title">Group B Matches</h3>
+                <div class="match-container" id="groupB-matches">
+                    <!-- Group B matches will be inserted here by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Match Details Modal -->
+    <div id="matchModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="modalContent">
+                <!-- Content will be inserted here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Team data with all match results
+        const teamData = {
+            // Group A
+            "Turash": { group: "A", matches: [], goals: [] },
+            "Jihad": { 
+                group: "A", 
+                matches: ['L', 'W'], // Lost to Wadi 1-4, Beat Rajin 2-1
+                goals: [1, 2] 
+            },
+            "Fahad": { group: "A", matches: [], goals: [] },
+            "Sahil": { group: "A", matches: [], goals: [] },
+            "Wadi": { 
+                group: "A", 
+                matches: ['W', 'T'], // Beat Jihad 4-1, Drew Rajin 0-0
+                goals: [4, 0] 
+            },
+            "Rajin": { 
+                group: "A", 
+                matches: ['T', 'L'], // Drew Wadi 0-0, Lost to Jihad 1-2
+                goals: [0, 1] 
+            },
+            
+            // Group B
+            "Eraj": { group: "B", matches: [], goals: [] },
+            "Zuhaer": { 
+                group: "B", 
+                matches: ['W'], // Beat Saqib 3-0
+                goals: [3] 
+            },
+            "Sabid": { 
+                group: "B", 
+                matches: ['W'], // Beat Nahid 2-0
+                goals: [2] 
+            },
+            "Saqib": { 
+                group: "B", 
+                matches: ['W', 'L'], // Beat Nahid 2-1, Lost to Zuhaer 0-3
+                goals: [2, 0] 
+            },
+            "Nahid": { 
+                group: "B", 
+                matches: ['L', 'L'], // Lost to Sabid 0-2, Lost to Saqib 1-2
+                goals: [0, 1] 
+            },
+            "Digonto": { group: "B", matches: [], goals: [] }
+        };
+
+        // Match data with detailed statistics
+        const matchData = [
+            // Group A Completed Matches
+            {
+                id: "A1",
+                group: "A",
+                player1: "Wadi",
+                player2: "Jihad",
+                score1: 4,
+                score2: 1,
+                status: "completed",
+                goals: [
+                    { team: "Wadi", scorer: "Rabiot", time: "19'" },
+                    { team: "Wadi", scorer: "Barcola", time: "23'" },
+                    { team: "Jihad", scorer: "Al Owairan", time: "45'+1'" },
+                    { team: "Wadi", scorer: "Luis Figo", time: "60'" },
+                    { team: "Wadi", scorer: "Schweinsteiger", time: "65'" }
+                ]
+            },
+            {
+                id: "A2",
+                group: "A",
+                player1: "Wadi",
+                player2: "Rajin",
+                score1: 0,
+                score2: 0,
+                status: "completed",
+                goals: []
+            },
+            {
+                id: "A3",
+                group: "A",
+                player1: "Jihad",
+                player2: "Rajin",
+                score1: 2,
+                score2: 1,
+                status: "completed",
+                goals: [
+                    { team: "Rajin", scorer: "Muller", time: "10'" },
+                    { team: "Jihad", scorer: "Cantona", time: "22'" },
+                    { team: "Jihad", scorer: "Nico Williams", time: "29'" }
+                ]
+            },
+            
+            // Group A Upcoming Matches
+            { id: "A4", group: "A", player1: "Wadi", player2: "Turash", status: "upcoming" },
+            { id: "A5", group: "A", player1: "Wadi", player2: "Fahad", status: "upcoming" },
+            { id: "A6", group: "A", player1: "Wadi", player2: "Sahil", status: "upcoming" },
+            { id: "A7", group: "A", player1: "Jihad", player2: "Turash", status: "upcoming" },
+            { id: "A8", group: "A", player1: "Jihad", player2: "Fahad", status: "upcoming" },
+            { id: "A9", group: "A", player1: "Jihad", player2: "Sahil", status: "upcoming" },
+            { id: "A10", group: "A", player1: "Rajin", player2: "Turash", status: "upcoming" },
+            { id: "A11", group: "A", player1: "Rajin", player2: "Fahad", status: "upcoming" },
+            { id: "A12", group: "A", player1: "Rajin", player2: "Sahil", status: "upcoming" },
+            { id: "A13", group: "A", player1: "Turash", player2: "Fahad", status: "upcoming" },
+            { id: "A14", group: "A", player1: "Turash", player2: "Sahil", status: "upcoming" },
+            { id: "A15", group: "A", player1: "Fahad", player2: "Sahil", status: "upcoming" },
+            
+            // Group B Completed Matches
+            {
+                id: "B1",
+                group: "B",
+                player1: "Sabid",
+                player2: "Nahid",
+                score1: 2,
+                score2: 0,
+                status: "completed",
+                goals: [
+                    { team: "Sabid", scorer: "Dalglish", time: "60'" },
+                    { team: "Sabid", scorer: "Dalglish", time: "86'" }
+                ]
+            },
+            {
+                id: "B2",
+                group: "B",
+                player1: "Saqib",
+                player2: "Nahid",
+                score1: 2,
+                score2: 1,
+                status: "completed",
+                goals: [
+                    { team: "Saqib", scorer: "Butragueno", time: "68'" },
+                    { team: "Nahid", scorer: "Gravenberch", time: "83'" },
+                    { team: "Saqib", scorer: "Best", time: "90'+3" }
+                ]
+            },
+            {
+                id: "B3",
+                group: "B",
+                player1: "Zuhaer",
+                player2: "Saqib",
+                score1: 3,
+                score2: 0,
+                status: "completed",
+                goals: [
+                    { team: "Zuhaer", scorer: "Nico Williams", time: "24'" },
+                    { team: "Zuhaer", scorer: "Mbappe", time: "36'" },
+                    { team: "Zuhaer", scorer: "Isak", time: "61'" }
+                ]
+            },
+            
+            // Group B Upcoming Matches
+            { id: "B4", group: "B", player1: "Sabid", player2: "Saqib", status: "upcoming" },
+            { id: "B5", group: "B", player1: "Sabid", player2: "Zuhaer", status: "upcoming" },
+            { id: "B6", group: "B", player1: "Sabid", player2: "Eraj", status: "upcoming" },
+            { id: "B7", group: "B", player1: "Sabid", player2: "Digonto", status: "upcoming" },
+            { id: "B8", group: "B", player1: "Saqib", player2: "Eraj", status: "upcoming" },
+            { id: "B9", group: "B", player1: "Saqib", player2: "Digonto", status: "upcoming" },
+            { id: "B10", group: "B", player1: "Nahid", player2: "Zuhaer", status: "upcoming" },
+            { id: "B11", group: "B", player1: "Nahid", player2: "Eraj", status: "upcoming" },
+            { id: "B12", group: "B", player1: "Nahid", player2: "Digonto", status: "upcoming" },
+            { id: "B13", group: "B", player1: "Zuhaer", player2: "Eraj", status: "upcoming" },
+            { id: "B14", group: "B", player1: "Zuhaer", player2: "Digonto", status: "upcoming" },
+            { id: "B15", group: "B", player1: "Eraj", player2: "Digonto", status: "upcoming" }
+        ];
+
+        // Calculate points and prepare data for display
+        function prepareGroupData(groupLetter) {
+            return Object.entries(teamData)
+                .filter(([name, data]) => data.group === groupLetter)
+                .map(([name, data]) => {
+                    const wins = data.matches.filter(r => r === 'W').length;
+                    const ties = data.matches.filter(r => r === 'T').length;
+                    const losses = data.matches.filter(r => r === 'L').length;
+                    const points = wins * 2 + ties * 1;
+                    const goalsFor = data.goals.reduce((a, b) => a + b, 0);
+                    
+                    return {
+                        name,
+                        matches: data.matches,
+                        goals: data.goals,
+                        wins,
+                        ties,
+                        losses,
+                        points,
+                        goalsFor
+                    };
+                })
+                .sort((a, b) => {
+                    // Sort by points descending, then goal difference descending
+                    if (b.points !== a.points) return b.points - a.points;
+                    return b.goalsFor - a.goalsFor;
+                });
+        }
+
+        // Render a group table
+        function renderGroup(groupElementId, groupData) {
+            const groupElement = document.getElementById(groupElementId);
+            groupElement.innerHTML = '';
+            
+            groupData.forEach((player, index) => {
+                const row = document.createElement('tr');
+                
+                // Rank
+                const rankCell = document.createElement('td');
+                rankCell.className = 'rank';
+                rankCell.textContent = index + 1;
+                row.appendChild(rankCell);
+                
+                // Player name
+                const nameCell = document.createElement('td');
+                nameCell.className = 'player-name';
+                nameCell.textContent = player.name;
+                row.appendChild(nameCell);
+                
+                // Win/Tie/Lose circles
+                const formCell = document.createElement('td');
+                const formCircles = document.createElement('div');
+                formCircles.className = 'form-circles';
+                
+                // Add result circles (pad to 5 matches)
+                for (let i = 0; i < 5; i++) {
+                    const circle = document.createElement('div');
+                    circle.className = 'circle';
+                    
+                    if (i < player.matches.length) {
+                        const result = player.matches[i];
+                        circle.textContent = result === 'W' ? 'W' : result === 'T' ? 'T' : 'L';
+                        circle.classList.add(result === 'W' ? 'win' : result === 'T' ? 'tie' : 'lose');
+                    } else {
+                        circle.textContent = '-';
+                        circle.style.background = 'transparent';
+                        circle.style.border = '1px solid #ddd';
+                        circle.style.color = '#95a5a6';
+                    }
+                    
+                    formCircles.appendChild(circle);
+                }
+                
+                formCell.appendChild(formCircles);
+                row.appendChild(formCell);
+                
+                // Goals circles
+                const goalsCell = document.createElement('td');
+                const goalsCircles = document.createElement('div');
+                goalsCircles.className = 'form-circles';
+                
+                // Add goal circles (pad to 5 matches)
+                for (let i = 0; i < 5; i++) {
+                    const circle = document.createElement('div');
+                    circle.className = 'circle goal-circle';
+                    
+                    if (i < player.goals.length) {
+                        circle.textContent = player.goals[i];
+                    } else {
+                        circle.textContent = '-';
+                        circle.style.background = 'transparent';
+                        circle.style.border = '1px solid #ddd';
+                        circle.style.color = '#95a5a6';
+                    }
+                    
+                    goalsCircles.appendChild(circle);
+                }
+                
+                goalsCell.appendChild(goalsCircles);
+                row.appendChild(goalsCell);
+                
+                // Points
+                const pointsCell = document.createElement('td');
+                pointsCell.className = 'points';
+                pointsCell.textContent = player.points;
+                row.appendChild(pointsCell);
+                
+                // Total Goals
+                const totalGoalsCell = document.createElement('td');
+                totalGoalsCell.className = 'total-goals';
+                totalGoalsCell.textContent = player.goalsFor;
+                row.appendChild(totalGoalsCell);
+                
+                groupElement.appendChild(row);
+            });
+        }
+
+        // Render match cards
+        function renderMatches() {
+            const groupAMatches = document.getElementById('groupA-matches');
+            const groupBMatches = document.getElementById('groupB-matches');
+            
+            groupAMatches.innerHTML = '';
+            groupBMatches.innerHTML = '';
+            
+            matchData.forEach(match => {
+                const matchCard = document.createElement('div');
+                matchCard.className = 'match-card';
+                matchCard.dataset.matchId = match.id;
+                
+                let scoreDisplay = '';
+                let statusClass = '';
+                
+                if (match.status === 'completed') {
+                    scoreDisplay = `${match.player1} ${match.score1} - ${match.score2} ${match.player2}`;
+                    statusClass = 'completed';
+                } else {
+                    scoreDisplay = `${match.player1} vs ${match.player2}`;
+                    statusClass = 'upcoming';
+                }
+                
+                matchCard.innerHTML = `
+                    <div class="match-teams">
+                        <div class="team">
+                            <div class="team-name">${match.player1}</div>
+                        </div>
+                        <div class="vs">vs</div>
+                        <div class="team">
+                            <div class="team-name">${match.player2}</div>
+                        </div>
+                    </div>
+                    <div class="match-score">${match.status === 'completed' ? match.score1 + ' - ' + match.score2 : 'vs'}</div>
+                    <div class="match-status ${statusClass}">
+                        ${match.status === 'completed' ? 'Completed' : 'Upcoming'}
+                    </div>
+                `;
+                
+                matchCard.addEventListener('click', () => openMatchModal(match));
+                
+                if (match.group === 'A') {
+                    groupAMatches.appendChild(matchCard);
+                } else {
+                    groupBMatches.appendChild(matchCard);
+                }
+            });
+        }
+
+        // Open match details modal
+        function openMatchModal(match) {
+            const modal = document.getElementById('matchModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            if (match.status === 'completed') {
+                // Group goals by team
+                const team1Goals = match.goals.filter(g => g.team === match.player1);
+                const team2Goals = match.goals.filter(g => g.team === match.player2);
+                
+                modalContent.innerHTML = `
+                    <h3 class="match-details-title">${match.player1} ${match.score1} - ${match.score2} ${match.player2}</h3>
+                    
+                    <div class="goals-container">
+                        <div style="display: flex; justify-content: space-between;">
+                            <div style="width: 48%;">
+                                <div class="stats-title">${match.player1} Goals</div>
+                                ${team1Goals.length > 0 ? 
+                                    team1Goals.map(goal => `
+                                        <div class="goal-item">
+                                            <span class="goal-scorer">${goal.scorer}</span>
+                                            <span class="goal-time">${goal.time}</span>
+                                        </div>
+                                    `).join('') : 
+                                    '<p>No goals</p>'}
+                            </div>
+                            
+                            <div style="width: 48%;">
+                                <div class="stats-title">${match.player2} Goals</div>
+                                ${team2Goals.length > 0 ? 
+                                    team2Goals.map(goal => `
+                                        <div class="goal-item">
+                                            <span class="goal-scorer">${goal.scorer}</span>
+                                            <span class="goal-time">${goal.time}</span>
+                                        </div>
+                                    `).join('') : 
+                                    '<p>No goals</p>'}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } else {
+                modalContent.innerHTML = `
+                    <div class="upcoming-match-message">
+                        <h3>${match.player1} vs ${match.player2}</h3>
+                        <p>This match has not been played yet</p>
+                        <p>Check back later for updates!</p>
+                    </div>
+                `;
+            }
+            
+            modal.style.display = 'block';
+        }
+
+        // Close modal when clicking X
+        document.querySelector('.close-modal').addEventListener('click', function() {
+            document.getElementById('matchModal').style.display = 'none';
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', function(event) {
+            const modal = document.getElementById('matchModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // Initialize the page
+        function init() {
+            // Render groups
+            renderGroup('groupA', prepareGroupData('A'));
+            renderGroup('groupB', prepareGroupData('B'));
+            
+            // Render matches
+            renderMatches();
+        }
+
+        // Initialize when page loads
+        window.onload = init;
+    </script>
+</body>
+</html>
