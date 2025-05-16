@@ -37,13 +37,6 @@
             font-weight: 500;
         }
         
-        .last-updated {
-            text-align: center;
-            font-size: 0.9em;
-            margin-bottom: 30px;
-            color: #7f8c8d;
-        }
-        
         .groups-container {
             display: flex;
             justify-content: space-between;
@@ -169,7 +162,6 @@
     <div class="container">
         <h1>2nd FC Mobile Tournament Points Table</h1>
         <div class="presented-by">Presented by Sheikh Farhan Sabid</div>
-        <div class="last-updated" id="lastUpdated">Last updated: <span id="updateTime"></span></div>
         
         <div class="groups-container">
             <div class="group">
@@ -182,7 +174,7 @@
                             <th>Win/Tie/Lose</th>
                             <th>Goals</th>
                             <th>Pts</th>
-                            <th>Total Goals</th>
+                            <th>Total G</th>
                         </tr>
                     </thead>
                     <tbody id="groupA">
@@ -201,7 +193,7 @@
                             <th>Win/Tie/Lose</th>
                             <th>Goals</th>
                             <th>Pts</th>
-                            <th>Total Goals</th>
+                            <th>Total G</th>
                         </tr>
                     </thead>
                     <tbody id="groupB">
@@ -213,22 +205,50 @@
     </div>
 
     <script>
-        // Team data - EDIT THIS TO UPDATE THE TOURNAMENT STANDINGS
+        // Team data with all match results
         const teamData = {
             // Group A
             "Turash": { group: "A", matches: [], goals: [] },
-            "Jihad": { group: "A", matches: ['L', 'W'], goals: [1, 2] }, // Lost to Wadi 1-4
+            "Jihad": { 
+                group: "A", 
+                matches: ['L', 'W'], // Lost to Wadi 1-4, Beat Rajin 2-1
+                goals: [1, 2] 
+            },
             "Fahad": { group: "A", matches: [], goals: [] },
             "Sahil": { group: "A", matches: [], goals: [] },
-            "Wadi": { group: "A", matches: ['W', 'T'], goals: [4, 0] }, // Beat Jihad 4-1
-            "Rajin": { group: "A", matches: ['T', 'L'], goals: [0, 1] },
+            "Wadi": { 
+                group: "A", 
+                matches: ['W', 'T'], // Beat Jihad 4-1, Drew Rajin 0-0
+                goals: [4, 0] 
+            },
+            "Rajin": { 
+                group: "A", 
+                matches: ['T', 'L'], // Drew Wadi 0-0, Lost to Jihad 1-2
+                goals: [0, 1] 
+            },
             
             // Group B
             "Eraj": { group: "B", matches: [], goals: [] },
-            "Zuhaer": { group: "B", matches: ['W'], goals: [3] },
-            "Sabid": { group: "B", matches: ['W'], goals: [2] }, // Beat Nahid 2-0
-            "Saqib": { group: "B", matches: ['W', 'L'], goals: [2, 0] }, // Beat Nahid 2-1
-            "Nahid": { group: "B", matches: ['L', 'L'], goals: [0, 1] }, // Lost to Sabid 0-2, lost to Saqib 1-2
+            "Zuhaer": { 
+                group: "B", 
+                matches: ['W'], // Beat Saqib 3-0
+                goals: [3] 
+            },
+            "Sabid": { 
+                group: "B", 
+                matches: ['W'], // Beat Nahid 2-0
+                goals: [2] 
+            },
+            "Saqib": { 
+                group: "B", 
+                matches: ['W', 'L'], // Beat Nahid 2-1, Lost to Zuhaer 0-3
+                goals: [2, 0] 
+            },
+            "Nahid": { 
+                group: "B", 
+                matches: ['L', 'L'], // Lost to Sabid 0-2, Lost to Saqib 1-2
+                goals: [0, 1] 
+            },
             "Digonto": { group: "B", matches: [], goals: [] }
         };
 
@@ -349,35 +369,11 @@
             });
         }
 
-        // Update last updated time
-        function updateLastUpdated() {
-            const now = new Date();
-            const options = { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-            document.getElementById('updateTime').textContent = now.toLocaleDateString('en-US', options);
-            localStorage.setItem('lastUpdated', now.toString());
-        }
-
         // Initialize the page
         function init() {
             // Render groups
             renderGroup('groupA', prepareGroupData('A'));
             renderGroup('groupB', prepareGroupData('B'));
-            
-            // Set last updated time
-            const lastUpdated = localStorage.getItem('lastUpdated');
-            if (lastUpdated) {
-                const lastUpdatedDate = new Date(lastUpdated);
-                const now = new Date();
-                const hoursDiff = Math.floor((now - lastUpdatedDate) / (1000 * 60 * 60));
-                
-                if (hoursDiff < 1) {
-                    document.getElementById('updateTime').textContent = 'Less than an hour ago';
-                } else {
-                    document.getElementById('updateTime').textContent = `${hoursDiff} hour${hoursDiff !== 1 ? 's' : ''} ago`;
-                }
-            } else {
-                updateLastUpdated();
-            }
         }
 
         // Initialize when page loads
