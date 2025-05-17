@@ -445,7 +445,7 @@
             },
             
             // Group B
-            "Eraj": { group: "B", matches: [], goals: [] },
+            "Eraj": { group: "B", matches: ['L'], goals: [0] },
             "Zuhaer": { 
                 group: "B", 
                 matches: ['W', 'T'], // Beat Saqib 3-0
@@ -453,8 +453,8 @@
             },
             "Sabid": { 
                 group: "B", 
-                matches: ['W', 'T', 'T'], // Beat Nahid 2-0
-                goals: [2, 2, 0] 
+                matches: ['W', 'T', 'T', 'W'], // Beat Nahid 2-0
+                goals: [2, 2, 0, 3] 
             },
             "Saqib": { 
                 group: "B", 
@@ -595,9 +595,22 @@ score2: 0,
 status: "completed",
 goals: []
             },
+            {
+                id: "B6",
+                group: "B",
+                player1: "Sabid",
+                player2: "Eraj",
+                score1: 3,
+                score2: 0,
+                status: "completed",
+                goals: [
+                    { team: "Sabid", scorer: "Olise", time: "19'" },
+                    { team: "Sabid", scorer: "Olise", time: "39'" },
+                    { team: "Sabid", scorer: "Dalglish", time: "58'" }
+                ]
+            },
             
             // Group B Upcoming Matches
-            { id: "B6", group: "B", player1: "Sabid", player2: "Eraj", status: "upcoming" },
             { id: "B7", group: "B", player1: "Sabid", player2: "Digonto", status: "upcoming" },
             { id: "B8", group: "B", player1: "Saqib", player2: "Eraj", status: "upcoming" },
             { id: "B9", group: "B", player1: "Saqib", player2: "Digonto", status: "upcoming" },
