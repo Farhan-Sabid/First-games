@@ -347,7 +347,7 @@
     <div class="container">
         <h1>2nd FC Mobile Tournament of Milestone Sector - 7</h1>
         <div class="presented-by">Presented by Sheikh Farhan Sabid</div>
-        <div class="player-count">Total 12 Players</div>
+        <div class="player-count">Total 10 Players</div>
         
         <div class="groups-container">
             <div class="group">
@@ -431,7 +431,6 @@
                 matches: ['L', 'W', 'L'], // Lost to Wadi 1-4, Beat Rajin 2-1
                 goals: [1, 2, 1] 
             },
-            "Fahad": { group: "A", matches: [], goals: [] },
             "Sahil": { group: "A", matches: ['W'], goals: [2] },
             "Wadi": { 
                 group: "A", 
@@ -466,7 +465,6 @@
                 matches: ['L', 'L'], // Lost to Sabid 0-2, Lost to Saqib 1-2
                 goals: [0, 1] 
             },
-            "Digonto": { group: "B", matches: [], goals: [] }
         };
 
         // Match data with detailed statistics
@@ -527,17 +525,12 @@
                 ]
             },
             // Group A Upcoming Matches
-            { id: "A9", group: "A", player1: "Wadi", player2: "Turash", status: "upcoming" },
-            { id: "A5", group: "A", player1: "Wadi", player2: "Fahad", status: "upcoming" },
+            { id: "A5", group: "A", player1: "Wadi", player2: "Turash", status: "upcoming" },
             { id: "A6", group: "A", player1: "Wadi", player2: "Sahil", status: "upcoming" },
             { id: "A7", group: "A", player1: "Jihad", player2: "Turash", status: "upcoming" },
-            { id: "A8", group: "A", player1: "Jihad", player2: "Fahad", status: "upcoming" },
-            { id: "A10", group: "A", player1: "Rajin", player2: "Turash", status: "upcoming" },
-            { id: "A11", group: "A", player1: "Rajin", player2: "Fahad", status: "upcoming" },
-            { id: "A12", group: "A", player1: "Rajin", player2: "Sahil", status: "upcoming" },
-            { id: "A13", group: "A", player1: "Turash", player2: "Fahad", status: "upcoming" },
-            { id: "A14", group: "A", player1: "Turash", player2: "Sahil", status: "upcoming" },
-            { id: "A15", group: "A", player1: "Fahad", player2: "Sahil", status: "upcoming" },
+            { id: "A8", group: "A", player1: "Rajin", player2: "Turash", status: "upcoming" },
+            { id: "A9", group: "A", player1: "Rajin", player2: "Sahil", status: "upcoming" },
+            { id: "A10", group: "A", player1: "Turash", player2: "Sahil", status: "upcoming" },
             
             // Group B Completed Matches
             {
@@ -623,15 +616,10 @@ goals: []
             },
             
             // Group B Upcoming Matches
-            { id: "B7", group: "B", player1: "Sabid", player2: "Digonto", status: "upcoming" },
-            { id: "B8", group: "B", player1: "Saqib", player2: "Eraj", status: "upcoming" },
-            { id: "B9", group: "B", player1: "Saqib", player2: "Digonto", status: "upcoming" },
-            { id: "B10", group: "B", player1: "Nahid", player2: "Zuhaer", status: "upcoming" },
-            { id: "B11", group: "B", player1: "Nahid", player2: "Eraj", status: "upcoming" },
-            { id: "B12", group: "B", player1: "Nahid", player2: "Digonto", status: "upcoming" },
-            { id: "B13", group: "B", player1: "Zuhaer", player2: "Eraj", status: "upcoming" },
-            { id: "B14", group: "B", player1: "Zuhaer", player2: "Digonto", status: "upcoming" },
-            { id: "B15", group: "B", player1: "Eraj", player2: "Digonto", status: "upcoming" }
+            { id: "B7", group: "B", player1: "Saqib", player2: "Eraj", status: "upcoming" },
+            { id: "B8", group: "B", player1: "Nahid", player2: "Zuhaer", status: "upcoming" },
+            { id: "B9", group: "B", player1: "Nahid", player2: "Eraj", status: "upcoming" },
+            { id: "B10", group: "B", player1: "Zuhaer", player2: "Eraj", status: "upcoming" },
         ];
 
         // Calculate points and prepare data for display
@@ -688,8 +676,8 @@ goals: []
                 const formCircles = document.createElement('div');
                 formCircles.className = 'form-circles';
                 
-                // Add result circles (pad to 5 matches)
-                for (let i = 0; i < 5; i++) {
+                // Add result circles (pad to 4 matches)
+                for (let i = 0; i < 4; i++) {
                     const circle = document.createElement('div');
                     circle.className = 'circle';
                     
@@ -715,8 +703,8 @@ goals: []
                 const goalsCircles = document.createElement('div');
                 goalsCircles.className = 'form-circles';
                 
-                // Add goal circles (pad to 5 matches)
-                for (let i = 0; i < 5; i++) {
+                // Add goal circles (pad to 4 matches)
+                for (let i = 0; i < 4; i++) {
                     const circle = document.createElement('div');
                     circle.className = 'circle goal-circle';
                     
