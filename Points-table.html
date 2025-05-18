@@ -208,48 +208,46 @@
         // Team data with all match results
         const teamData = {
             // Group A
-            "Turash": { group: "A", matches: [], goals: [] },
+            "Turash": { group: "A", matches: ['T'], goals: [2] },
             "Jihad": { 
                 group: "A", 
-                matches: ['L', 'W'], // Lost to Wadi 1-4, Beat Rajin 2-1
-                goals: [1, 2] 
+                matches: ['L', 'W', 'L'], // Lost to Wadi 1-4, Beat Rajin 2-1
+                goals: [1, 2, 1] 
             },
-            "Fahad": { group: "A", matches: [], goals: [] },
-            "Sahil": { group: "A", matches: [], goals: [] },
+            "Sahil": { group: "A", matches: ['W', 'L'], goals: [2, 0] },
             "Wadi": { 
                 group: "A", 
-                matches: ['W', 'T'], // Beat Jihad 4-1, Drew Rajin 0-0
-                goals: [4, 0] 
+                matches: ['W', 'T', 'T'], // Beat Jihad 4-1, Drew Rajin 0-0
+                goals: [4, 0, 2] 
             },
             "Rajin": { 
                 group: "A", 
-                matches: ['T', 'L'], // Drew Wadi 0-0, Lost to Jihad 1-2
-                goals: [0, 1] 
+                matches: ['T', 'L', 'W'], // Drew Wadi 0-0, Lost to Jihad 1-2
+                goals: [0, 1, 0] 
             },
             
             // Group B
-            "Eraj": { group: "B", matches: [], goals: [] },
+            "Eraj": { group: "B", matches: ['L', 'L'], goals: [0,0] },
             "Zuhaer": { 
                 group: "B", 
-                matches: ['W'], // Beat Saqib 3-0
-                goals: [3] 
+                matches: ['W', 'T'], // Beat Saqib 3-0
+                goals: [3, 2] 
             },
             "Sabid": { 
                 group: "B", 
-                matches: ['W'], // Beat Nahid 2-0
-                goals: [2] 
+                matches: ['W', 'T', 'T', 'W'], // Beat Nahid 2-0
+                goals: [2, 2, 0, 3] 
             },
             "Saqib": { 
                 group: "B", 
-                matches: ['W', 'L'], // Beat Nahid 2-1, Lost to Zuhaer 0-3
-                goals: [2, 0] 
+                matches: ['W', 'L', 'T', 'W'], // Beat Nahid 2-1, Lost to Zuhaer 0-3
+                goals: [2, 0, 0, 2] 
             },
             "Nahid": { 
                 group: "B", 
                 matches: ['L', 'L'], // Lost to Sabid 0-2, Lost to Saqib 1-2
                 goals: [0, 1] 
             },
-            "Digonto": { group: "B", matches: [], goals: [] }
         };
 
         // Calculate points and prepare data for display
@@ -306,8 +304,8 @@
                 const formCircles = document.createElement('div');
                 formCircles.className = 'form-circles';
                 
-                // Add result circles (pad to 5 matches)
-                for (let i = 0; i < 5; i++) {
+                // Add result circles (pad to 4 matches)
+                for (let i = 0; i < 4; i++) {
                     const circle = document.createElement('div');
                     circle.className = 'circle';
                     
@@ -333,8 +331,8 @@
                 const goalsCircles = document.createElement('div');
                 goalsCircles.className = 'form-circles';
                 
-                // Add goal circles (pad to 5 matches)
-                for (let i = 0; i < 5; i++) {
+                // Add goal circles (pad to 4 matches)
+                for (let i = 0; i < 4; i++) {
                     const circle = document.createElement('div');
                     circle.className = 'circle goal-circle';
                     
