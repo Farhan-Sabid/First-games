@@ -444,7 +444,7 @@
             },
             
             // Group B
-            "Eraj": { group: "B", matches: ['L'], goals: [0] },
+            "Eraj": { group: "B", matches: ['L', 'L'], goals: [0, 0] },
             "Zuhaer": { 
                 group: "B", 
                 matches: ['W', 'T'], // Beat Saqib 3-0
@@ -457,8 +457,8 @@
             },
             "Saqib": { 
                 group: "B", 
-                matches: ['W', 'L', 'T'], // Beat Nahid 2-1, Lost to Zuhaer 0-3
-                goals: [2, 0, 0] 
+                matches: ['W', 'L', 'T', 'W'], // Beat Nahid 2-1, Lost to Zuhaer 0-3
+                goals: [2, 0, 0, 2] 
             },
             "Nahid": { 
                 group: "B", 
@@ -549,11 +549,6 @@
                 status: "completed",
                 goals: []
             },
-            // Group A Upcoming Matches
-            { id: "A9", group: "A", player1: "Wadi", player2: "Sahil", status: "upcoming" },
-            { id: "A7", group: "A", player1: "Jihad", player2: "Turash", status: "upcoming" },
-            { id: "A8", group: "A", player1: "Rajin", player2: "Turash", status: "upcoming" },
-            { id: "A10", group: "A", player1: "Turash", player2: "Sahil", status: "upcoming" },
             
             // Group B Completed Matches
             {
@@ -637,13 +632,19 @@ goals: []
                     { team: "Sabid", scorer: "Dalglish", time: "58'" }
                 ]
             },
-            
-            // Group B Upcoming Matches
-            { id: "B7", group: "B", player1: "Saqib", player2: "Eraj", status: "upcoming" },
-            { id: "B8", group: "B", player1: "Nahid", player2: "Zuhaer", status: "upcoming" },
-            { id: "B9", group: "B", player1: "Nahid", player2: "Eraj", status: "upcoming" },
-            { id: "B10", group: "B", player1: "Zuhaer", player2: "Eraj", status: "upcoming" },
-        ];
+            {
+                id: "B7",
+                group: "B",
+                player1: "Saqib",
+                player2: "Eraj",
+                score1: 2,
+                score2: 0,
+                status: "completed",
+                goals: [
+                    { team: "Saqib", scorer: "Best", time: "75'" },
+                    { team: "Saqib", scorer: "Best", time: "90'+1'" }
+                ]
+            },
 
         // Calculate points and prepare data for display
         function prepareGroupData(groupLetter) {
