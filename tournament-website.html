@@ -247,9 +247,6 @@
             color: #27ae60;
         }
         
-        .upcoming {
-            color: #f39c12;
-        }
         
         /* Popup Modal Styles */
         .modal {
@@ -320,12 +317,6 @@
             color: #7f8c8d;
         }
         
-        .upcoming-match-message {
-            text-align: center;
-            padding: 40px;
-            font-size: 1.2em;
-            color: #7f8c8d;
-        }
         
         @media (max-width: 768px) {
             .groups-container {
@@ -799,7 +790,7 @@ goals: []
                     </div>
                     <div class="match-score">${match.status === 'completed' ? match.score1 + ' - ' + match.score2 : 'vs'}</div>
                     <div class="match-status ${statusClass}">
-                        ${match.status === 'completed' ? 'Completed' : 'Upcoming'}
+                        ${match.status === 'completed' ? 'Completed'}
                     </div>
                 `;
                 
